@@ -51,18 +51,6 @@
 							}}
 					},
 					selection: {
-						"country": {
-							"type": "single",
-							"fields": ["country_name"],
-							"bind": {"input": "select",       "name": "Country ",
-								"options": [null, "Colombia",
-								"Chile",
-								"France",
-								"Mexico",
-								"Spain"
-									]
-								}
-							},
 						"weekday": {
 							"type": "single",
 							"fields": ["week_day"],
@@ -76,6 +64,18 @@
 									"Friday",
 									"Saturday",
 									"Sunday"
+									]
+								}
+							},
+						"country": {
+							"type": "single",
+							"fields": ["country_name"],
+							"bind": {"input": "select",       "name": "Country ",
+								"options": [null, "Colombia",
+								"Chile",
+								"France",
+								"Mexico",
+								"Spain"
 									]
 								}
 							}
