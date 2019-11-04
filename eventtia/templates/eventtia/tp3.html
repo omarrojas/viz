@@ -1,0 +1,37 @@
+{% extends "eventtia/template.html" %}
+{% load staticfiles %}
+{% block tarea %}
+
+<section class="ftco-section ftco-bread">
+	<div class="container">
+		<div class="row no-gutters slider-text justify-content-center align-items-center">
+  			<div class="col-md-8 ftco-animate">
+    			<h1 class="bread">Tarea principal 3</h1>
+  			</div>
+		</div>
+	</div>
+</section>
+			
+<section class="ftco-section">
+  	<div class="container">
+    	<div class="row">    
+    	  	<div class="media-body p-2 mt-2">
+            	<h4 class="heading mb-3">La descripción de la tarea</h4>
+       
+          	</div>     
+		</div>
+		
+		<svg id="viz" width="720" height="120">
+		  <circle cx="40" cy="60" r="10"></circle>
+		  <circle cx="80" cy="60" r="10"></circle>
+		  <circle cx="120" cy="60" r="10"></circle>
+		</svg> 
+
+		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
+		<script type="text/javascript" src="{% static 'eventtia/d3/tp3.js' %}" > </script>
+		
+	</div>
+</section>
+	    
+
+{% endblock tarea %}
