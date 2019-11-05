@@ -21,9 +21,77 @@
           	</div>     
 		</div>
 
-		<div id="chart">
+		<!--div id="chart">
 			<img src="{% static 'eventtia/images/ts_2_2.jpg' %}">
-		</div>
+		</div-->
+
+		<div id="vis"></div>
+
+		<script type="text/javascript">
+		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTarea2.csv"
+		  d3.csv(dataCSV)
+				.then(function(data) {
+					var yourVlSpec = {
+						"title": 'Delay time by weekday and country',
+						"data": {values: data},
+						"width": 800,
+						"height": 350,
+						"mark": "line",
+						"encoding": {
+							"x": {"field": "demora15min", "type": "ordinal",
+								"axis": {
+									"title": "Delay (minutes)"
+									}
+								},
+							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative"},
+							"color": {"field": "nom_week_day", "type": "nominal"}    
+						},
+							selection: {
+												"weekday": {
+													"type": "single",
+													"fields": ["nom_week_day"],
+													"bind": {"input": "select",       "name": "Weekday ",
+														"options": [
+															"All",
+															"Mon",
+															"Tue",
+															"Wed",
+															"Thu",
+															"Fri",
+															"Sat",
+															"Sun"
+															]
+														}
+													},
+								"country": {
+									"type": "single",
+									"fields": ["country_name"],
+									"bind": {"input": "select",       "name": "Country ",
+										"options": ["Colombia",
+										"Chile",
+										"France",
+										"Mexico",
+										"Spain"
+											]
+										}
+									}
+
+								},
+							transform: [{
+									filter: {field: "country_name", selection: "country"}
+								},
+								{
+									filter: {field: "nom_week_day", selection: "weekday"}
+								}               ]  
+						}
+				;
+					vegaEmbed('#vis', yourVlSpec);
+				})
+				.catch(function(error){
+					// handle error   
+				})
+	
+		</script>
 	
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
 		<script type="text/javascript" src="{% static 'eventtia/d3/ts2_2.js' %}" > </script>
