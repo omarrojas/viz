@@ -1,9 +1,9 @@
 var promiseWrapper = (d) => new Promise(resolve => d3.csv(d, (p) => resolve(p)))
 	
-    Promise.all([promiseWrapper("static/eventtia/d3/nodelist.csv"),promiseWrapper("static/eventtia/d3/edgelist.csv")]).then(resolve => {
+    Promise.all([promiseWrapper("static/eventtia/d3/tp3_nodelist.csv"),promiseWrapper("static/eventtia/d3/tp3_edgelist.csv")]).then(resolve => {
         createAdjacencyMatrix(resolve[0],resolve[1])    
      })
-	//console.log(Promise.all([promiseWrapper("static/eventtia/d3/nodelist.csv"),promiseWrapper("static/eventtia/d3/edgelist.csv")]))
+	//console.log(Promise.all([promiseWrapper("static/eventtia/d3/tp3_nodelist.csv"),promiseWrapper("static/eventtia/d3/tp3_edgelist.csv")]))
 	
     function createAdjacencyMatrix(nodes,edges){
 		
