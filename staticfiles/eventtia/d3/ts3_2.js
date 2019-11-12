@@ -1,7 +1,7 @@
 
 Promise.all([            
-d3.json("./countries.geo.json"),                 
-d3.json("./ts3_2.json")
+d3.json("static/eventtia/d3/countries.geo.json"),                 
+d3.json("static/eventtia/d3/ts3_2.json")
     ]).then(function(data){
     
       showData(data);
