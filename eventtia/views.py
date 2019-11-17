@@ -59,5 +59,5 @@ def tp2_backend(request):
         #resultado =  tp2_data(connection, countryname)
     
 #    return resultado
-    return render(request,'eventtia/ts3_2.html',{});
+    return render(request,'eventtia/ts3_1.html',{});
  
