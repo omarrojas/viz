@@ -51,13 +51,11 @@ def tp2_backend(request):
     resultado = ""
     if request.method == "GET":
         resultado = "hello"
-    #if request.method == 'GET':
-        #countryname = request.GET.get('countryname', "Colombia")
-        #countryname = request.GET['countryname']
+        countryname = request.GET['countryname']
     #    countryname = "este"
     #    resultado = countryname
         #resultado =  tp2_data(connection, countryname)
     
 #    return resultado
-    return render(request,'eventtia/ts3_1.html',{});
+    return render(request,'eventtia/ts3_2.html',{});
  
