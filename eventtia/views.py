@@ -1,5 +1,20 @@
 from django.shortcuts import render
 
+from .vtp2 import tp2_backend
+
+# Común para el acceso a la BD
+import sqlite3
+import json
+
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
+connection = sqlite3.connect('db.sqlite3')
+connection.row_factory = dict_factory
+
 # Create your views here.
 
 def index(request):
@@ -31,3 +46,6 @@ def ts3_1(request):
 
 def ts3_2(request):
     return render(request,'eventtia/ts3_2.html',{});
+
+def tp2_backend(request):
+    countryname = request.args.get("countryname", "Colombia")
