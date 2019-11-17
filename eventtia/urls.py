@@ -13,5 +13,7 @@ urlpatterns = [
     path('tp3', views.tp3, name='tp3'),
     path('ts3_1', views.ts3_1, name='ts3_1'),
     path('ts3_2', views.ts3_2, name='ts3_2'),
+
+    path('tp2_backend', views.tp2_backend, name='tp2_backend'),
     
     ] 

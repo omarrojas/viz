@@ -10,7 +10,7 @@ def dict_factory(cursor, row):
 connection = sqlite3.connect('db.sqlite3')
 connection.row_factory = dict_factory
 
-def tp2_backend(con, countryname):
+def tp2_data(con, countryname):
 
     cursorObj = con.cursor()
 

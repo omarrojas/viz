@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .vtp2 import tp2_backend
+from .vtp2 import tp2_data
 
 # Común para el acceso a la BD
 import sqlite3
@@ -49,3 +49,4 @@ def ts3_2(request):
 
 def tp2_backend(request):
     countryname = request.args.get("countryname", "Colombia")
+    return tp2_data(connection, countryname)
