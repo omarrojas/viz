@@ -52,7 +52,8 @@ def tp2_backend(request):
     if request.method == 'GET':
         #countryname = request.GET.get('countryname', "Colombia")
         countryname = request.GET['countryname']
-        resultado =  tp2_data(connection, countryname)
+        resultado = countryname
+        #resultado =  tp2_data(connection, countryname)
     
     return resultado
  
