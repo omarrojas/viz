@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 from .vtp2 import tp2_data
 
@@ -54,5 +55,6 @@ def tp2_backend(request):
         countryname = request.GET['countryname']
         resultado =  tp2_data(connection, countryname)
 #    return resultado
-    return render(request,'eventtia/ts3_1.html',{});
+    return HttpResponse(resultado, content_type='application/json')
+    #return render(request,'eventtia/ts3_1.html',{});
  
