@@ -49,11 +49,11 @@ def ts3_2(request):
 
 def tp2_backend(request):
     resultado = ""
-    if request.method == 'GET':
+    #if request.method == 'GET':
         #countryname = request.GET.get('countryname', "Colombia")
         #countryname = request.GET['countryname']
-        countryname = "este"
-        resultado = countryname
+    #    countryname = "este"
+    #    resultado = countryname
         #resultado =  tp2_data(connection, countryname)
     
     return resultado
