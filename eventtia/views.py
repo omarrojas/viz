@@ -48,5 +48,10 @@ def ts3_2(request):
     return render(request,'eventtia/ts3_2.html',{});
 
 def tp2_backend(request):
-    countryname = request.args.get("countryname", "Colombia")
-    return tp2_data(connection, countryname)
+    resultado = ""
+    if request.method == 'GET':
+        countryname = request.GET.get('countryname')
+        resultado =  tp2_data(connection, countryname)
+    
+    return resultado
+ 
