@@ -50,7 +50,8 @@ def ts3_2(request):
 def tp2_backend(request):
     resultado = ""
     if request.method == 'GET':
-        countryname = request.GET.get('countryname', "Colombia")
+        #countryname = request.GET.get('countryname', "Colombia")
+        countryname = request.GET['countryname']
         resultado =  tp2_data(connection, countryname)
     
     return resultado
