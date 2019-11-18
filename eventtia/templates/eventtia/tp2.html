@@ -169,6 +169,9 @@
 
                     var svg = d3.select("#vis")
                     var bar = svg.selectAll(".bar")
+                        .remove()
+                        .exit()
+                        .data(data)	
                     console.log(bar)
                 }
 
