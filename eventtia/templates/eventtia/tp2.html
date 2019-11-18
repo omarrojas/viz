@@ -169,7 +169,11 @@
 
                     yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
 
+                    var svg = d3.select("#vis")
+                    var bar = svg.selectAll(".bar")
+                    console.log(bar)
                 }
+
                 update(dataset);
 		</script>
 	
