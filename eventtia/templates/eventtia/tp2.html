@@ -142,8 +142,8 @@
                     // Title
                     svg.append("g")
                         .append('text')
-                        .attr('x', w / 2 + m.left)
-                        .attr('y', m.top)
+                        .attr('x', w / 2 + m.left / 2)
+                        .attr('y', -(m.top / 2))
                         .attr('text-anchor', 'middle')
                         .text('% attendees arrived between on time and delay minutes');
 
