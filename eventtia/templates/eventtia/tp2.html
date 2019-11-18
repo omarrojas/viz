@@ -40,12 +40,12 @@
                     //typecast attendees # to #, calculate total, and cumulative attendees
                     var totalAmount = 0;
                     for(var i = 0; i < data.length; i++){
-                        data[i].Amount = +data[i].Amount;
-                        totalAmount += data[i].Amount;
-                        if(i > 0){
-                        data[i]['CumulativeAmount'] = data[i].Amount + data[i-1].CumulativeAmount;
-                        }else{
-                        data[i]['CumulativeAmount'] = data[i].Amount;
+                        data[i].attendees = + data[i].attendees;
+                        totalAttendees += data[i].attendees;
+                        if (i > 0) {
+                            data[i]['CumulativeAttendees'] = data[i].attendees + data[i-1].CumulativeAttendees;
+                        } else {
+                            data[i]['CumulativeAttendees'] = data[i].attendees;
                         }
                     }                    
 				})

@@ -15,7 +15,7 @@ def tp2_data(con, countryname):
     cursorObj = con.cursor()
 
     cursorObj.execute("""
-            SELECT demora15min, range_order, sum(attendees) attendees_acum
+            SELECT demora15min, range_order, sum(attendees) attendees
                 FROM SalidaTarea2
                 WHERE country_name = ?
                 GROUP BY demora15min, range_order 
