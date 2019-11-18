@@ -108,6 +108,22 @@
                         .attr("y", function(d) { return ycum(d.CumulativePercentage); })
                         .attr("height", function(d) { return h - ycum(d.CumulativePercentage); });
 
+                    //Draw axes
+                    svg.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + h + ")")
+                        .call(d3.axisBottom(xScale));
+
+                    svg.append("g")
+                        .attr("class", "y axis")
+                        .call(d3.axisLeft(yhist))
+                        .append("text")
+                        .attr("transform", "rotate(-90)")
+                        .attr("y", 6)
+                        .attr("dy", ".71em")
+                        .style("text-anchor", "end")
+                        .text("% attendees acum");
+
 				})
 		</script>
 	
