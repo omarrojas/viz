@@ -165,8 +165,6 @@
                     xScale.domain(data.map(function(d) { return d.demora15min; }));
                         
                     //set domain for y axis
-                    yChart.domain( [0, d3.max(data, function(d){ return +d.watch_time_minutes; })] );
-
                     yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
 
                     var svg = d3.select("#vis")
