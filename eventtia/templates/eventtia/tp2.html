@@ -32,70 +32,11 @@
 		<div id="vis"></div>
 
 		<script type="text/javascript">
-		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTP2.csv";
-		  d3.csv(dataCSV)
+		    var dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=Mexico"
+		    d3.json(dataJSON)
 				.then(function(data) {
-					var yourVlSpec = {
-				data: {values: data},
-				title: '% attendees arrives between on time and delay minutes',
-				width: 800,
-				height: 350,
-				mark: 'rect',
-				encoding: {
-					x: { field: 'delay', 
-							type: "ordinal",
-							sort: "y",
-							"axis": {
-							"title": "Delay (minutes)"
-							}
-						},
-					y: { field: 'porc_attendees_acum', type: 'quantitative' ,
-							"axis": {
-							"title": "%attendees"
-							}}
-					},
-    				tooltip: {"field": "porc_attendees_acum", "type": "quantitative"},
-					selection: {
-						"weekday": {
-							"type": "single",
-							"fields": ["week_day"],
-							"bind": {"input": "select",       "name": "Weekday ",
-								"options": [
-									"All",
-									"Monday",
-									"Tuesday",
-									"Wednesday",
-									"Thursday",
-									"Friday",
-									"Saturday",
-									"Sunday"
-									]
-								}
-							},
-						"country": {
-							"type": "single",
-							"fields": ["country_name"],
-							"bind": {"input": "select",       "name": "Country ",
-								"options": [null, "Colombia",
-								"Chile",
-								"France",
-								"Mexico",
-								"Spain"
-									]
-								}
-							}
-						},
-					transform: [{
-					filter: {field: "country_name", selection: "country"}
-						}]  
-				}
-				;
-					vegaEmbed('#vis', yourVlSpec);
+                    console.log(data)
 				})
-				.catch(function(error){
-					// handle error   
-				})
-	
 		</script>
 	
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
