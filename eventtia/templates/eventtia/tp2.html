@@ -31,7 +31,15 @@
 
 		<div id="vis"></div>
 
-		<script type="text/javascript">
+        <script type="text/javascript">
+            //Set dimensions
+            var m = {top: 50, right: 50, bottom: 50, left: 50}
+                , h = 500 - m.top - m.bottom
+                , w = 960 - m.left - m.right
+                , barWidth = 5;
+
+            var dataset = null;        
+
 		    var dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=Mexico"
 		    d3.json(dataJSON)
 				.then(function(data) {
@@ -52,7 +60,49 @@
                         data[i]['CumulativePercentage'] = (data[i]['CumulativeAttendees'] / totalAttendees) * 100;
                         data[i]['CumulativePercentage'] = parseFloat(data[i]['CumulativePercentage'].toFixed(2));
                     }
-                    console.log(data)
+
+                    dataset = data;
+
+                    //Axes and scales
+                    var xScale = d3.scale.ordinal().rangeRoundBands([0, w], 0.1);
+                    xScale.domain(data.map(function(d) { return d.demora15min; }));
+
+                    var yhist = d3.scale.linear()
+                                    .domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })])
+                                    .range([h, 0]);
+
+                    var ycum = d3.scale.linear().domain([0, 100]).range([h, 0]);
+
+                    var xAxis = d3.svg.axis()
+                                    .scale(xScale)
+                                    .orient('bottom');
+
+                    var yAxis = d3.svg.axis()
+                                    .scale(yhist)
+                                    .orient('left');
+
+                    var yAxis2 = d3.svg.axis()
+                                    .scale(ycum)
+                                    .orient('right');
+
+                    //Draw svg
+                    var svg = d3.select("body").append("svg")
+                                .attr("width", w + m.left + m.right)
+                                .attr("height", h + m.top + m.bottom)
+                                .append("g")
+                                .attr("transform", "translate(" + m.left + "," + m.top + ")");
+
+                    //Draw histogram
+                    var bar = svg.selectAll(".bar")
+                                    .data(data)
+                                    .enter().append("g")
+                                    .attr("class", "bar");
+
+                    bar.append("rect")
+                        .attr("x", function(d) { return xScale(d.demora15min); })
+                        .attr("width", xScale.rangeBand())
+                        .attr("y", function(d) { return ycum(d.CumulativePercentage); })
+                        .attr("height", function(d) { return h - ycum(d.CumulativePercentage); });
 
 				})
 		</script>
