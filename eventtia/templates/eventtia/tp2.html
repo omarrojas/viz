@@ -36,7 +36,7 @@
 		    d3.json(dataJSON)
 				.then(function(data) {
                     //typecast attendees # to #, calculate total, and cumulative attendees
-                    var totalAmount = 0;
+                    var totalAttendees = 0;
                     for(var i = 0; i < data.length; i++){
                         data[i].attendees = + data[i].attendees;
                         totalAttendees += data[i].attendees;
