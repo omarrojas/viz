@@ -9,8 +9,8 @@
 	*/
 	
 	Promise.all([            
-d3.csv("static/eventtia/d3/tp3_nodelist.csv"),                 
-d3.csv("static/eventtia/d3/tp3_edgelist.csv")
+		d3.csv("static/eventtia/d3/tp3_nodelist.csv"),                 
+		d3.csv("static/eventtia/d3/tp3_edgelist.csv")
     ]).then(function(data){
     
       createAdjacencyMatrix(data);
@@ -24,8 +24,8 @@ d3.csv("static/eventtia/d3/tp3_edgelist.csv")
 		
 		var width = 400
 		var height = 400
-		var widthSquare=35
-		var widthSquareDiv2=17.5
+		var widthSquare=15
+		var widthSquareDiv2=7.5
 		
 		
 		var edgeHash = {};
@@ -37,11 +37,11 @@ d3.csv("static/eventtia/d3/tp3_edgelist.csv")
 		var matrix = []
 		let i=1;
 		nodes.forEach((source, a) => {		
-			if(source.role =="evento"){				
+			if(source.role =="participante"){				
 				let j=1;
 				nodes.forEach((target, b) => {
-					if(target.role =="participante"){						
-						var grid = {id: source.id + "-" + target.id, x: j, y: i, weight: 0};
+					if(target.role =="evento"){						
+						var grid = {id: target.id + "-" + source.id, x: j, y: i, weight: 0};
 						j++;						
 						if(edgeHash[grid.id]){
 							grid.weight = edgeHash[grid.id].weight;							
@@ -58,9 +58,11 @@ d3.csv("static/eventtia/d3/tp3_edgelist.csv")
 		
 
 	var svg = d3.select("svg")
+	
+	svg.attr("transform","translate(50,50)")
 
 	d3.select("svg").append("g")
-		.attr("transform","translate(15,15)")
+		.attr("transform","translate(35,35)")
 		.attr("id","adjacencyG")
 		.selectAll("rect")
 		.data(matrix)
@@ -77,7 +79,7 @@ d3.csv("static/eventtia/d3/tp3_edgelist.csv")
 		.append("g")
 		.attr("transform","translate(50,45)")
 		.selectAll("text")
-		.data(nodeParticipantes(nodes))
+		.data(nodeEventos(nodes))
 		.enter()
 		.append("text")
 		.attr("x", (d,i) => i * widthSquare + widthSquareDiv2)
@@ -88,7 +90,7 @@ d3.csv("static/eventtia/d3/tp3_edgelist.csv")
 	d3.select("svg")
 		.append("g").attr("transform","translate(45,50)")
 		.selectAll("text")
-		.data(nodeEventos(nodes))
+		.data(nodeParticipantes(nodes))
 		.enter()
 		.append("text")
 		.attr("y",(d,i) => i * widthSquare + widthSquareDiv2)
