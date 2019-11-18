@@ -180,7 +180,7 @@
                         .attr("x", function(d) { return xScale(d.demora15min); })
                         .attr("width", xScale.bandwidth())
                         .attr("y", function(d) { return ycum(d.CumulativePercentage); })
-                        .attr("height", function(d) { return h - ycum(d.CumulativePercentage); })
+                        .attr("height", function(d) { return h - yhist(d.CumulativePercentage); })
                         .attr("fill", function(d) { 
                                 return "rgb(251,180,174)";
                             })
