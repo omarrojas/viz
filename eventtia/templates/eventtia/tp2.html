@@ -157,6 +157,18 @@
                         .text('% attendees acum');
 
 				})
+
+                function update(data){
+                    //set domain for the x axis
+                    xScale.domain(data.map(function(d) { return d.demora15min; }));
+                        
+                    //set domain for y axis
+                    yChart.domain( [0, d3.max(data, function(d){ return +d.watch_time_minutes; })] );
+
+                    yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
+
+                }
+                update(dataset);
 		</script>
 	
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
