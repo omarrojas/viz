@@ -75,20 +75,6 @@
 
                     var ycum = d3.scaleLinear().domain([0, 100]).range([h, 0]);
 
-/*                    
-                    var xAxis = d3.svg.axis()
-                                    .scale(xScale)
-                                    .orient('bottom');
-
-                    var yAxis = d3.svg.axis()
-                                    .scale(yhist)
-                                    .orient('left');
-
-                    var yAxis2 = d3.svg.axis()
-                                    .scale(ycum)
-                                    .orient('right');
-*/
-
                     //Draw svg
                     var svg = d3.select("#vis").append("svg")
                                 .attr("width", w + m.left + m.right)
