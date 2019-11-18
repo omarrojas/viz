@@ -31,8 +31,9 @@
 		<div id="vis"></div>
 
 		<script type="text/javascript">
-		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTarea2.csv"
-		  d3.csv(dataCSV)
+//		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTarea2.csv"
+		  var dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=Mexico"
+		  d3.json(dataJSON)
 				.then(function(data) {
 					var yourVlSpec = {
 						"title": 'Delay time by attendee type',
