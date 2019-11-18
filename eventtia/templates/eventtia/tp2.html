@@ -171,7 +171,26 @@
                     var bar = svg.selectAll(".bar")
                         .remove()
                         .exit()
-                        .data(data)	
+                        .data(data)	;
+                    
+                    	//now actually give each rectangle the corresponding data
+                    bar.enter()
+                        .append("rect")
+                        .attr("class", "bar")
+                        .attr("x", function(d) { return xScale(d.demora15min); })
+                        .attr("width", xScale.bandwidth())
+                        .attr("y", function(d) { return ycum(d.CumulativePercentage); })
+                        .attr("height", function(d) { return h - ycum(d.CumulativePercentage); })
+                        .attr("fill", function(d) { 
+                                return "rgb(251,180,174)";
+                            })
+
+                    bar.append("rect")
+                        .attr("x", function(d) { return xScale(d.demora15min); })
+                        .attr("width", xScale.bandwidth())
+                        .attr("y", function(d) { return ycum(d.CumulativePercentage); })
+                        .attr("height", function(d) { return h - ycum(d.CumulativePercentage); });
+
                     console.log(bar)
                 }
 
