@@ -104,7 +104,7 @@
 
                     bar.append("rect")
                         .attr("x", function(d) { return xScale(d.demora15min); })
-                        .attr("width", xScale.rangeBand())
+                        .attr("width", xScale.bandwidth())
                         .attr("y", function(d) { return ycum(d.CumulativePercentage); })
                         .attr("height", function(d) { return h - ycum(d.CumulativePercentage); });
 
