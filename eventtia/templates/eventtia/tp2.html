@@ -67,11 +67,11 @@
                     var xScale = d3.scale.ordinal().rangeRoundBands([0, w], 0.1);
                     xScale.domain(data.map(function(d) { return d.demora15min; }));
 
-                    var yhist = d3.scale.linear()
+                    var yhist = d3.d3.scaleLinear()
                                     .domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })])
                                     .range([h, 0]);
 
-                    var ycum = d3.scale.linear().domain([0, 100]).range([h, 0]);
+                    var ycum = d3.d3.scaleLinear().domain([0, 100]).range([h, 0]);
 
                     var xAxis = d3.svg.axis()
                                     .scale(xScale)
