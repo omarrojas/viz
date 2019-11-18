@@ -35,6 +35,7 @@
 		  var dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=Mexico"
 		  d3.json(dataJSON)
 				.then(function(data) {
+					console.log(data)
 					var yourVlSpec = {
 						"title": 'Delay time by attendee type',
 						"data": {values: data},
