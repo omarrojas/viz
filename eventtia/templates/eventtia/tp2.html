@@ -64,19 +64,10 @@
                     dataset = data;
 
                     //Axes and scales
-                    //var xScale = d3.scaleOrdinal().rangeRoundBands([0, w], 0.1);
-//                    var ordinalScale = d3.scaleOrdinal()
-//	.domain(myData)
-//    .range(['black', '#ccc', '#ccc']);
-
                     var xScale = d3.scaleBand()
-
-                    //            pay attention here ! the next statement is necessary . It is not part of 【conversion from v3 to v4】
-                    .domain(data.map(function(d) { return d.demora15min; }))
-                    .rangeRound([0, w])
-                    .padding(0.1);
-
-//                    xScale.domain(data.map(function(d) { return d.demora15min; }));
+                        .domain(data.map(function(d) { return d.demora15min; }))
+                        .rangeRound([0, w])
+                        .padding(0.1);
 
                     var yhist = d3.scaleLinear()
                                     .domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })])
@@ -84,6 +75,7 @@
 
                     var ycum = d3.scaleLinear().domain([0, 100]).range([h, 0]);
 
+/*                    
                     var xAxis = d3.svg.axis()
                                     .scale(xScale)
                                     .orient('bottom');
@@ -95,6 +87,7 @@
                     var yAxis2 = d3.svg.axis()
                                     .scale(ycum)
                                     .orient('right');
+*/
 
                     //Draw svg
                     var svg = d3.select("body").append("svg")
