@@ -167,20 +167,16 @@
                     //set domain for y axis
                     yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
 
-                    var svg = d3.select("#vis")
+                    var svg = d3.select("svg")
                     var bar = svg.selectAll(".bar")
                         .remove()
                         .exit()
                         .data(data)	;
-                    console.log(svg);
-                    console.log(bar);
+
                     //now actually give each rectangle the corresponding data
-                    bar = svg.selectAll("g")
-                                .data(data)
-                                .enter().append("g")
-                                .attr("class", "bar");
 
                     bar.append("rect")
+                        .attr("class", "bar");
                         .attr("x", function(d) { return xScale(d.demora15min); })
                         .attr("width", xScale.bandwidth())
                         .attr("y", function(d) { return yhist(d.CumulativePercentage); })
