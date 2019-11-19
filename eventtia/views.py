@@ -39,8 +39,65 @@ def ts2_1(request):
 def ts2_2(request):
     return render(request,'eventtia/ts2_2.html',{});
 
+
+from .models import tp3edgelist
+from .forms import tp3Form
 def tp3(request):
-    return render(request,'eventtia/tp3.html',{});
+    if request.method == 'POST':
+        
+        form = tp3Form(request.POST);
+        
+        if form.is_valid():
+            
+            month = form.cleaned_data['month'];
+            print('Mes a buscar', month);
+        
+        
+            edgelist_T = list(tp3edgelist.objects.filter(month=month));
+            print('edgelist_T',edgelist_T);
+            
+            edgelist=[];
+            for i in edgelist_T:
+                object = {
+                    "source":i.source,
+                    "target":i.target,
+                    "weight":i.weight,            
+                    }
+                edgelist.append(object);
+            print('edgelist',edgelist);
+            
+            nodelist_S= list(tp3edgelist.objects.values('source').filter(month=month).distinct());
+            print('nodelist_S',nodelist_S);
+            nodelist_T= list(tp3edgelist.objects.values('target').filter(month=month).distinct());
+            print('nodelist_T',nodelist_T);
+            
+            nodelist=[];
+            for i in nodelist_S:
+                object = {
+                    "id":i['source'],
+                    "role":"evento"
+                    }
+                nodelist.append(object);
+            
+            for i in nodelist_T:
+                object = {
+                    "id":i['target'],
+                    "role":"participante"
+                    }
+                nodelist.append(object);
+            
+            
+            
+            print('nodelist',nodelist)
+            
+            return render(request,'eventtia/tp3.html',{"edgelist":edgelist,"nodelist":nodelist,"buscado":month,'formset': form});
+        else:
+            print(form)
+    else:
+        formset = tp3Form()
+        return render(request, 'eventtia/tp3.html', {'formset': formset});
+
+    
 
 def ts3_1(request):
     return render(request,'eventtia/ts3_1.html',{});
