@@ -174,7 +174,8 @@
                         .data(data)	;
                     
                     	//now actually give each rectangle the corresponding data
-                    bar.enter()
+                    bar = svg.selectAll(".bar")
+                        .enter()
                         .append("rect")
                         .attr("class", "bar")
                         .attr("x", function(d) { return xScale(d.demora15min); })
