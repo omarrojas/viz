@@ -8,3 +8,8 @@ class tp3edgelist(models.Model):
     year = models.IntegerField();
     month = models.TextField();
     
+class ts31eventtype(models.Model):
+    type=models.TextField();
+    year = models.IntegerField();
+    month = models.TextField();
+    

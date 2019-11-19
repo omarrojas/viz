@@ -99,8 +99,39 @@ def tp3(request):
 
     
 
+from .models import ts31eventtype
+from .forms import ts31Form
+from django.db.models import Count
 def ts3_1(request):
-    return render(request,'eventtia/ts3_1.html',{});
+    if request.method == 'POST':
+        
+        form = tp3Form(request.POST);
+        
+        if form.is_valid():
+            
+            month = form.cleaned_data['month'];
+            print('Mes a buscar', month);
+            
+            countType = list(ts31eventtype.objects.filter(month=month).values('type').annotate(count=Count('type')));
+            #list(ts31eventtype.objects.values('type').annotate(count=Count('type')));
+            print('ts3.1',countType);
+            
+            nodelist=[];
+            for i in countType:        
+                object = {
+                    "Name":i['type'],
+                    "Count":i['count']
+                    }
+                nodelist.append(object);
+            
+            countTypeList = {"children":nodelist};
+            
+            return render(request,'eventtia/ts3_1.html',{'countTypelist':countTypeList,"buscado":month,'formset': form});
+        else:
+            print(form)
+    else:
+        formset = ts31Form()
+        return render(request, 'eventtia/ts3_1.html', {'formset': formset});
 
 def ts3_2(request):
     return render(request,'eventtia/ts3_2.html',{});
