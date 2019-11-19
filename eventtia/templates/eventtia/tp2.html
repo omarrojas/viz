@@ -176,7 +176,7 @@
                     //now actually give each rectangle the corresponding data
 
                     bar.append("rect")
-                        .attr("class", "bar");
+                        .attr("class", "bar")
                         .attr("x", function(d) { return xScale(d.demora15min); })
                         .attr("width", xScale.bandwidth())
                         .attr("y", function(d) { return yhist(d.CumulativePercentage); })
