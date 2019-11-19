@@ -174,10 +174,11 @@
                         .data(data)	;
                     
                     	//now actually give each rectangle the corresponding data
-                    bar = svg.selectAll(".bar")
+                    bar = svg.selectAll("g")
                                 .data(data)
                                 .enter().append("g")
                                 .attr("class", "bar");
+
                     bar.append("rect")
                         .attr("x", function(d) { return xScale(d.demora15min); })
                         .attr("width", xScale.bandwidth())
