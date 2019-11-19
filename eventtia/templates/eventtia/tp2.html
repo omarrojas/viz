@@ -172,8 +172,9 @@
                         .remove()
                         .exit()
                         .data(data)	;
-                    
-                    	//now actually give each rectangle the corresponding data
+                    console.log(svg);
+                    console.log(bar);
+                    //now actually give each rectangle the corresponding data
                     bar = svg.selectAll("g")
                                 .data(data)
                                 .enter().append("g")
