@@ -191,9 +191,12 @@
             // handle on change event
             d3.select('#countryname')
                 .on('change', function() {
-                    var countryname = eval(d3.select(this).property('value'));
-                    console.log(countryname)
-                    update(dataset);
+                    var countryname = d3.select(this).property('value');
+                    console.log(countryname);
+                    dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname;
+                    d3.json(dataJSON).then(update);
+
+                    //update(dataset);
                 });
 
             //update(dataset);
