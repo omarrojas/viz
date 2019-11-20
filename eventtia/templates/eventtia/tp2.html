@@ -191,6 +191,8 @@
             }
 
             function updateData(){
+                var countryname = d3.select(this).property('value');
+                console.log(countryname)
                 update(dataset);
             }
 
