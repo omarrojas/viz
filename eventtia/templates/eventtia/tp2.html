@@ -30,7 +30,7 @@
     	</div-->
 
 		<div id="vis"></div>
-        Countryname: <select name="countryname">
+        Countryname: <select name="countryname" onclick="updateData()">
             <option value="Argentina">Argentina</option>
             <option value="Brazil">Brazil</option>
             <option value="Chile">Chile</option>
@@ -160,35 +160,39 @@
 
 				})
 
-                function update(data){
-                    //set domain for the x axis
-                    xScale.domain(data.map(function(d) { return d.demora15min; }));
-                        
-                    //set domain for y axis
-                    yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
-
-                    var svg = d3.select("svg")
-                    var bar = svg.selectAll(".bar")
-                        .remove()
-                        .exit()
-                        .data(data);
-
-                    //now actually give each rectangle the corresponding data
+            function update(data){
+                //set domain for the x axis
+                xScale.domain(data.map(function(d) { return d.demora15min; }));
                     
-                    bar.enter()
-                        .append("rect")
-                        .attr("transform", "translate(" + m.left + "," + m.top + ")")
-                        .attr("class", "bar")
-                        .attr("x", function(d) { return xScale(d.demora15min); })
-                        .attr("width", xScale.bandwidth())
-                        .attr("y", function(d) { return yhist(d.CumulativePercentage); })
-                        .attr("height", function(d) { return h - yhist(d.CumulativePercentage); })
-                        .attr("fill", function(d) { 
-                                return "rgb(251,180,174)";
-                            })
+                //set domain for y axis
+                yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
 
-                    console.log(bar)
-                }
+                var svg = d3.select("svg")
+                var bar = svg.selectAll(".bar")
+                    .remove()
+                    .exit()
+                    .data(data);
+
+                //now actually give each rectangle the corresponding data
+                
+                bar.enter()
+                    .append("rect")
+                    .attr("transform", "translate(" + m.left + "," + m.top + ")")
+                    .attr("class", "bar")
+                    .attr("x", function(d) { return xScale(d.demora15min); })
+                    .attr("width", xScale.bandwidth())
+                    .attr("y", function(d) { return yhist(d.CumulativePercentage); })
+                    .attr("height", function(d) { return h - yhist(d.CumulativePercentage); })
+                    .attr("fill", function(d) { 
+                            return "rgb(251,180,174)";
+                        })
+
+                console.log(bar)
+            }
+
+            function updateData(){
+                update(dataset);
+            }
 
                 //update(dataset);
 		</script>
