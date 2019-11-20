@@ -171,10 +171,12 @@
                     var bar = svg.selectAll(".bar")
                         .remove()
                         .exit()
-                        .data(data)	;
+                        .data(data)	
+                        .append("g")
+                        .attr("transform", "translate(" + m.left + "," + m.top + ")");
 
                     //now actually give each rectangle the corresponding data
-
+                    
                     bar.enter()
                         .append("rect")
                         .attr("class", "bar")
