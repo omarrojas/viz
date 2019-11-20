@@ -171,14 +171,13 @@
                     var bar = svg.selectAll(".bar")
                         .remove()
                         .exit()
-                        .data(data)	
-                        .append("g")
-                        .attr("transform", "translate(" + m.left + "," + m.top + ")");
+                        .data(data);
 
                     //now actually give each rectangle the corresponding data
                     
                     bar.enter()
                         .append("rect")
+                        .attr("transform", "translate(" + m.left + "," + m.top + ")")
                         .attr("class", "bar")
                         .attr("x", function(d) { return xScale(d.demora15min); })
                         .attr("width", xScale.bandwidth())
