@@ -175,6 +175,19 @@
 
                 //now actually give each rectangle the corresponding data
 //                bar = d3.select("svg.g")
+                
+                d3.select("svg")
+                    .select("g")
+                    .append("g")
+                    .attr("class", "bar")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) { return xScale(d.demora15min); })
+                    .attr("width", xScale.bandwidth())
+                    .attr("y", function(d) { return yhist(d.CumulativePercentage); })
+                    .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
+/*
                 bar.enter()
                     .append("g")
                     .attr("class", "bar")
@@ -184,7 +197,7 @@
                     .attr("width", xScale.bandwidth())
                     .attr("y", function(d) { return yhist(d.CumulativePercentage); })
                     .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
-                    /*
+ */                   /*
                     .attr("fill", function(d) { 
                             return "rgb(251,180,174)";
                         })
