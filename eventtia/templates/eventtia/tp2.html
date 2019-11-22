@@ -174,11 +174,10 @@
                     .data(data);
 
                 //now actually give each rectangle the corresponding data
-                bar = d3.select("svg.g")
+//                bar = d3.select("svg.g")
                 bar.enter()
-                   .data(data)
                     .append("rect")
-                    //.attr("transform", "translate(" + m.left + "," + m.top + ")")
+                    .attr("transform", "translate(" + m.left + "," + m.top + ")")
                     .attr("class", "bar")
                     .attr("x", function(d) { return xScale(d.demora15min); })
                     .attr("width", xScale.bandwidth())
