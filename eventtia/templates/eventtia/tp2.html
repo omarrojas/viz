@@ -185,8 +185,8 @@
                     .append("rect")
                     .attr("x", function(d) { return xScale(d.demora15min); })
                     .attr("width", xScale.bandwidth())
-                    .attr("y", function(d) { return ycum(d.CumulativePercentage); })
-                    .attr("height", function(d) { return h - ycum(d.CumulativePercentage); });
+                    .attr("y", function(d) { return yhist(d.CumulativePercentage); })
+                    .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
 
                 /*
                 d3.select("svg")
