@@ -176,9 +176,10 @@
                 //now actually give each rectangle the corresponding data
 //                bar = d3.select("svg.g")
                 bar.enter()
-                    .append("rect")
-                    .attr("transform", "translate(" + m.left + "," + m.top + ")")
+                    .append("g")
                     .attr("class", "bar")
+                    .attr("transform", "translate(" + m.left + "," + m.top + ")")
+                    .append("rect")
                     .attr("x", function(d) { return xScale(d.demora15min); })
                     .attr("width", xScale.bandwidth())
                     .attr("y", function(d) { return yhist(d.CumulativePercentage); })
