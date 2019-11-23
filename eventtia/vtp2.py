@@ -10,22 +10,28 @@ def dict_factory(cursor, row):
 connection = sqlite3.connect('db.sqlite3')
 connection.row_factory = dict_factory
 
-def tp2_data(con, countryname):
+def tp2_data(con, countryname, weekday):
 
-    cursorObj = con.cursor()
-
-    cursorObj.execute("""
+    strConsulta = ""
+    if (weekday == "All"):
+        strConsulta = """
             SELECT demora15min, range_order, sum(attendees) attendees
                 FROM SalidaTarea2
                 WHERE country_name = ?
                 GROUP BY demora15min, range_order 
-        """, (countryname,))
+        """, (countryname,)
+    else:
+        strConsulta = """
+            SELECT demora15min, range_order, sum(attendees) attendees
+                FROM SalidaTarea2
+                WHERE country_name = ? 
+                  AND now_week_day = ?
+                GROUP BY demora15min, range_order 
+        """, (countryname, weekday,)
+
+    cursorObj = con.cursor()
+
+    cursorObj.execute(strConsulta)
 
     data = cursorObj.fetchall()
     return json.dumps(data)
-
-    #return {"records":list(cursorObj.fetchall())}
-
-#salida = sql_fetch(connection, 'Mexico')
-
-#print(salida)

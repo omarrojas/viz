@@ -136,12 +136,13 @@ def ts3_1(request):
 def ts3_2(request):
     return render(request,'eventtia/ts3_2.html',{});
 
+# Backend endpoints
 def tp2_backend(request):
     resultado = ""
     if request.method == "GET":
         resultado = "hello"
         countryname = request.GET['countryname']
-        resultado =  tp2_data(connection, countryname)
+        weekday = request.GET['weekday']
+        resultado =  tp2_data(connection, countryname, weekday)
     return HttpResponse(resultado, content_type='application/json')
-
  
