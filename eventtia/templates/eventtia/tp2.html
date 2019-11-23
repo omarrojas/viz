@@ -161,6 +161,26 @@
 				})
 
             function update(data){
+                //typecast attendees # to #, calculate total, and cumulative attendees
+                var totalAttendees = 0;
+                for(var i = 0; i < data.length; i++){
+                    data[i].attendees = + data[i].attendees;
+                    totalAttendees += data[i].attendees;
+                    if (i > 0) {
+                        data[i]['CumulativeAttendees'] = data[i].attendees + data[i-1].CumulativeAttendees;
+                    } else {
+                        data[i]['CumulativeAttendees'] = data[i].attendees;
+                    }
+                }                    
+
+                //now calculate cumulative % from the cumulative attendees & total, round %
+                for(var i = 0; i < data.length; i++){
+                    data[i]['CumulativePercentage'] = (data[i]['CumulativeAttendees'] / totalAttendees) * 100;
+                    data[i]['CumulativePercentage'] = parseFloat(data[i]['CumulativePercentage'].toFixed(2));
+                }
+
+                dataset = data;
+
                 //set domain for the x axis
                 xScale.domain(data.map(function(d) { return d.demora15min; }));
                     
@@ -174,7 +194,6 @@
                     .data(data);
 
                 //now actually give each rectangle the corresponding data
-//                bar = d3.select("svg.g")
                 d3.select("svg")
                     .select("g")
                     .selectAll(".bar")
@@ -187,35 +206,6 @@
                     .attr("width", xScale.bandwidth())
                     .attr("y", function(d) { return yhist(d.CumulativePercentage); })
                     .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
-
-                /*
-                d3.select("svg")
-                    .select("g")
-                    .append("g")
-                    .attr("class", "bar")
-                    .data(data)
-                    .enter()
-                    .append("rect")
-                    .attr("x", function(d) { return xScale(d.demora15min); })
-                    .attr("width", xScale.bandwidth())
-                    .attr("y", function(d) { return yhist(d.CumulativePercentage); })
-                    .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
-                    */
-/*
-                bar.enter()
-                    .append("g")
-                    .attr("class", "bar")
-                    .attr("transform", "translate(" + m.left + "," + m.top + ")")
-                    .append("rect")
-                    .attr("x", function(d) { return xScale(d.demora15min); })
-                    .attr("width", xScale.bandwidth())
-                    .attr("y", function(d) { return yhist(d.CumulativePercentage); })
-                    .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
- */                   /*
-                    .attr("fill", function(d) { 
-                            return "rgb(251,180,174)";
-                        })
-                    */
             }
 
             // handle on change event
@@ -225,28 +215,8 @@
                     dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname;
                     d3.json(dataJSON)
                     .then(function(data) {
-                        //typecast attendees # to #, calculate total, and cumulative attendees
-                        var totalAttendees = 0;
-                        for(var i = 0; i < data.length; i++){
-                            data[i].attendees = + data[i].attendees;
-                            totalAttendees += data[i].attendees;
-                            if (i > 0) {
-                                data[i]['CumulativeAttendees'] = data[i].attendees + data[i-1].CumulativeAttendees;
-                            } else {
-                                data[i]['CumulativeAttendees'] = data[i].attendees;
-                            }
-                        }                    
-
-                        //now calculate cumulative % from the cumulative attendees & total, round %
-                        for(var i = 0; i < data.length; i++){
-                            data[i]['CumulativePercentage'] = (data[i]['CumulativeAttendees'] / totalAttendees) * 100;
-                            data[i]['CumulativePercentage'] = parseFloat(data[i]['CumulativePercentage'].toFixed(2));
-                        }
-
-                        dataset = data;
-                        update(dataset);
+                        update(data);
                     });
-                    //update(dataset);
                 });
 
             //update(dataset);
