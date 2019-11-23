@@ -208,13 +208,13 @@
                     .attr("width", xScale.bandwidth())
                     .attr("y", function(d) { return yhist(d.CumulativePercentage); })
                     .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
-
-                    //Draw axes
-                    svg.append("g")
-                        .attr("class", "x axis")
-                        .attr("transform", "translate(0," + h + ")")
-                        .call(d3.axisBottom(xScale));
-
+/*
+                //Draw axes
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + h + ")")
+                    .call(d3.axisBottom(xScale));
+*/
             }
 
             // handle on change event countryname
