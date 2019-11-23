@@ -25,7 +25,7 @@ def tp2_data(con, countryname, weekday):
                 SELECT demora15min, range_order, sum(attendees) attendees
                     FROM SalidaTarea2
                 WHERE country_name = ? 
-                  AND now_week_day = ?
+                  AND nom_week_day = ?
                 GROUP BY demora15min, range_order 
         """, (countryname, weekday,))
 
