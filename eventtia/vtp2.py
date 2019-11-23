@@ -12,26 +12,22 @@ connection.row_factory = dict_factory
 
 def tp2_data(con, countryname, weekday):
 
-    strConsulta = ""
+    cursorObj = con.cursor()
     if (weekday == "All"):
-        strConsulta = """
-            SELECT demora15min, range_order, sum(attendees) attendees
-                FROM SalidaTarea2
-                WHERE country_name = ?
-                GROUP BY demora15min, range_order 
-        """, (countryname,)
+        cursorObj.execute("""
+                SELECT demora15min, range_order, sum(attendees) attendees
+                    FROM SalidaTarea2
+                    WHERE country_name = ?
+                    GROUP BY demora15min, range_order 
+            """, (countryname,))
     else:
-        strConsulta = """
-            SELECT demora15min, range_order, sum(attendees) attendees
-                FROM SalidaTarea2
+        cursorObj.execute("""
+                SELECT demora15min, range_order, sum(attendees) attendees
+                    FROM SalidaTarea2
                 WHERE country_name = ? 
                   AND now_week_day = ?
                 GROUP BY demora15min, range_order 
-        """, (countryname, weekday,)
-
-    cursorObj = con.cursor()
-
-    cursorObj.execute(strConsulta)
+        """, (countryname, weekday,))
 
     data = cursorObj.fetchall()
     return json.dumps(data)
