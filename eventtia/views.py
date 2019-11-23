@@ -142,7 +142,6 @@ def tp2_backend(request):
         resultado = "hello"
         countryname = request.GET['countryname']
         resultado =  tp2_data(connection, countryname)
-#    return resultado
     return HttpResponse(resultado, content_type='application/json')
-    #return render(request,'eventtia/ts3_1.html',{});
+
  
