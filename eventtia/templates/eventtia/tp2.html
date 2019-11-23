@@ -69,8 +69,10 @@
             var xScale = null;     
             var yhist = null;   
 
-		    var countryname = "Argentina"
-            var dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname
+		    var countryname = "Argentina";
+            var weekday = "All";
+            var dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname + 
+                        "weekday=" + weekday;
 		    d3.json(dataJSON)
 				.then(function(data) {
                     //typecast attendees # to #, calculate total, and cumulative attendees
@@ -208,17 +210,29 @@
                     .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
             }
 
-            // handle on change event
+            // handle on change event countryname
             d3.select('#countryname')
                 .on('change', function() {
                     countryname = d3.select(this).property('value');
-                    dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname;
+                    dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname + 
+                        "weekday=" + weekday;
                     d3.json(dataJSON)
                     .then(function(data) {
                         update(data);
                     });
                 });
 
+            // handle on change event weekday
+            d3.select('#weekday')
+                .on('change', function() {
+                    weekday = d3.select(this).property('value');
+                    dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname + 
+                        "weekday=" + weekday;
+                    d3.json(dataJSON)
+                    .then(function(data) {
+                        update(data);
+                    });
+                });
             //update(dataset);
 		</script>
 	
