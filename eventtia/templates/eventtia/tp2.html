@@ -201,8 +201,6 @@
                     .select("g")
                     .selectAll(".bar")
                     .data(data)
-                    .transition()
-                    .duration(1000)
                     .enter().append("g")
                     .attr("class", "bar")
                     //ok
@@ -213,11 +211,11 @@
                     .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
 
                 svg = d3.select("svg")
-                svg.select(".x axis")
+                xx = svg.select(".x axis")
                     .attr("transform", "translate(0," + h + ")")
                     .call(d3.axisBottom(xScale));
 
-                console.log("Trying...")
+                console.log(xx)
 /*
                 //Draw axes
                 svg.append("g")
