@@ -210,9 +210,12 @@
                     .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
 
                 svg = d3.select("svg")
-                x_axis = svg.selectAll(".x axis")
-                    .remove();
-                console.log("x axis eliminado 2")
+                svg.select(".x axis")
+            	chart.select('.xAxis')
+                    .attr("transform", "translate(0," + h + ")")
+                    .call(d3.axisBottom(xScale));
+
+                console.log("x axis cambiado")
 /*
                 //Draw axes
                 svg.append("g")
