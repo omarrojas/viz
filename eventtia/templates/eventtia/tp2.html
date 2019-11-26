@@ -208,6 +208,11 @@
                     .attr("width", xScale.bandwidth())
                     .attr("y", function(d) { return yhist(d.CumulativePercentage); })
                     .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
+
+                svg = d3.select("svg")
+                x_axis = svg.selectAll("x axis")
+                    .remove();
+                console.log("x axis eliminado")
 /*
                 //Draw axes
                 svg.append("g")
