@@ -217,7 +217,8 @@
 */
                 var t = d3.transition()
                     .duration(500)
-        
+                svg = d3.select("svg");
+                console.log(svg)
                 svg.select(".x axis")
                     .transition(t)
                     .call(d3.axisBottom(xScale));
