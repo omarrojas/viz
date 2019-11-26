@@ -201,6 +201,8 @@
                     .select("g")
                     .selectAll(".bar")
                     .data(data)
+                    .transition()
+                    .duration(1000)
                     .enter().append("g")
                     .attr("class", "bar")
                     //ok
