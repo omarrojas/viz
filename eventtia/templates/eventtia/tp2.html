@@ -209,13 +209,19 @@
                     .attr("width", xScale.bandwidth())
                     .attr("y", function(d) { return yhist(d.CumulativePercentage); })
                     .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
-
+/*
                 svg = d3.select("svg")
                 xx = svg.select(".x axis")
                     .attr("transform", "translate(0," + h + ")")
                     .call(d3.axisBottom(xScale));
-
-                console.log(xx)
+*/
+                var t = d3.transition()
+                    .duration(500)
+        
+                svg.select(".x axis")
+                    .transition(t)
+                    .call(d3.axisBottom(xScale));
+                
 /*
                 //Draw axes
                 svg.append("g")
