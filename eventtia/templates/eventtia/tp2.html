@@ -128,7 +128,7 @@
 
                     //Draw axes
                     svg.append("g")
-                        .attr("class", "x axis")
+                        .attr("class", "xaxis")
                         .attr("transform", "translate(0," + h + ")")
                         .call(d3.axisBottom(xScale));
 
@@ -219,11 +219,11 @@
                     .duration(500);
                 svg = d3.select("svg");
 
-                xaxis = svg.select(".x axis"); 
-                console.log("xx:");
+                xaxis = svg.select(".xaxis"); 
+                console.log("xaxis:");
                 console.log(xaxis.node());
 
-                svg.select(".x axis")
+                svg.select(".xaxis")
                     .transition(t)
                     .call(d3.axisBottom(xScale));
                 
