@@ -218,7 +218,13 @@
                 var t = d3.transition()
                     .duration(500)
                 svg = d3.select("svg");
-                console.log(svg)
+                console.log("svg.node()")
+                console.log(svg.node())
+                svg.append("circle")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("r", 20);
+
                 svg.select(".x axis")
                     .transition(t)
                     .call(d3.axisBottom(xScale));
