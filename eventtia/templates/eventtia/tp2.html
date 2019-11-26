@@ -219,12 +219,14 @@
                     .duration(500);
                 svg = d3.select("svg");
 
-                xx = svg.select(".x axis")
+                xaxis = svg.select(".x axis"); 
+                console.log("xx:");
+                console.log(xx.node());
+
+                svg.select(".x axis")
                     .transition(t)
                     .call(d3.axisBottom(xScale));
                 
-                console.log("xx");
-                console.log(xx.node());
 /*
                 //Draw axes
                 svg.append("g")
