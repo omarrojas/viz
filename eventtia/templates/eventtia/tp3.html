@@ -69,14 +69,7 @@
 		<div class="row"> 
 		  <svg id="container" height="500" width="600"  style="border: solid 1px #000">
 
-				<g id="bodyVIZ" style="transform:translate(100,100px)"></g>
-
-				<g id="yAxis"></g>
-
-				<g id="xAxis"></g>
-
-				<g id="yLine"></g>   		
-
+				<g id="bodyVIZ" style="transform:translate(0,0)"></g>
 		  </svg>
 		</div>
 
@@ -219,7 +212,12 @@
 
 		.append("text")
 
-		.attr("x", (d,i) => i * widthSquare + widthSquareDiv2)
+		//.attr("x", (d,i) => i * widthSquare + widthSquareDiv2)
+	
+	        .attr("transform", function(d,i){
+			var vx = i * widthSquare + widthSquareDiv2;
+			return "translate("+vx+",-10) rotate(300)";			
+		})
 
 		.text(d => d.id)
 
