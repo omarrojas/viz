@@ -22,21 +22,25 @@
           	</div>     
 		</div>
 		
-		{% if buscado is not null%}
-			<h3>Mostrando mes {{buscado}}</h3>
-			
-			</br>
-		{%endif%}
+		<div class="row">
+			<div class="col-sm-12">		
+				 <form method="post" action="ts3_1"> 
+				  {% csrf_token %}
+				  {{ formset }}
+				  <button type="submit" class="btn btn-primary">Visulaizar</button>				  
+				 </form> 
+			</div>		
+					
+		</div>		
+		
 		<div class="row"> 
+    	  	<div class="media-body p-2 mt-2">
+            	<h4 class="heading mb-3">Participantes por Temas de los Eventos  {% if buscado is not null%} , año {{buscado}} {%endif%}</h4>
+          	</div> 
+		</div>
 		
 		
-		
-		
-		 <form method="post" action="ts3_1">		  
-		  {% csrf_token %}
-		  {{ formset }}
-		  <input type="submit"/>
-		</form> 	
+		<div class="row"> 		 	
 		
 		<svg id="container" height="500" width="600"  style="border: solid 1px #000">
 				<g id="bodyVIZ" style="transform:translate(100,100px)"></g>
@@ -97,7 +101,7 @@
 
         node.append("title")
             .text(function(d) {
-                return d.Name + ": " + d.Count;
+                return "Eventos Tipo "+d.data.Name + ": Asistentes" + d.data.Count;
             });
 
         node.append("circle")

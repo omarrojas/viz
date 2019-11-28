@@ -53,8 +53,8 @@ def tp3(request):
             print('Mes a buscar', month);
         
         
-            edgelist_T = list(tp3edgelist.objects.filter(month=month));
-            print('edgelist_T',edgelist_T);
+            edgelist_T = list(tp3edgelist.objects.filter(year=month));
+            #print('edgelist_T',edgelist_T);
             
             edgelist=[];
             for i in edgelist_T:
@@ -64,12 +64,12 @@ def tp3(request):
                     "weight":i.weight,            
                     }
                 edgelist.append(object);
-            print('edgelist',edgelist);
+            #print('edgelist',edgelist);
             
-            nodelist_S= list(tp3edgelist.objects.values('source').filter(month=month).distinct());
-            print('nodelist_S',nodelist_S);
-            nodelist_T= list(tp3edgelist.objects.values('target').filter(month=month).distinct());
-            print('nodelist_T',nodelist_T);
+            nodelist_S= list(tp3edgelist.objects.values('source').filter(year=month).distinct());
+            #print('nodelist_S',nodelist_S);
+            nodelist_T= list(tp3edgelist.objects.values('target').filter(year=month).distinct());
+            #print('nodelist_T',nodelist_T);
             
             nodelist=[];
             for i in nodelist_S:
@@ -88,7 +88,7 @@ def tp3(request):
             
             
             
-            print('nodelist',nodelist)
+            #print('nodelist',nodelist)
             
             return render(request,'eventtia/tp3.html',{"edgelist":edgelist,"nodelist":nodelist,"buscado":month,'formset': form});
         else:
@@ -110,11 +110,9 @@ def ts3_1(request):
         if form.is_valid():
             
             month = form.cleaned_data['month'];
-            print('Mes a buscar', month);
+            print('Año a buscar', month);
             
-            countType = list(ts31eventtype.objects.filter(month=month).values('type').annotate(count=Count('type')));
-            #list(ts31eventtype.objects.values('type').annotate(count=Count('type')));
-            print('ts3.1',countType);
+            countType = list(ts31eventtype.objects.filter(year=month).values('type').annotate(count=Count('type')));
             
             nodelist=[];
             for i in countType:        
@@ -125,6 +123,7 @@ def ts3_1(request):
                 nodelist.append(object);
             
             countTypeList = {"children":nodelist};
+            print('ts3.1',countTypeList);
             
             return render(request,'eventtia/ts3_1.html',{'countTypelist':countTypeList,"buscado":month,'formset': form});
         else:
