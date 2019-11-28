@@ -3,6 +3,13 @@
 {% load static %}
 {% block tarea %}
 
+<style>
+#svgScroll{
+    overflow : auto;
+    border: solid 1px #000
+} 
+</style>
+
 <section class="ftco-section ftco-bread">
 	<div class="container">
 		<div class="row no-gutters slider-text justify-content-center align-items-center">
@@ -42,13 +49,9 @@
 		
 		<div class="row"> 		 	
 		
-		<svg id="container" height="500" width="600"  style="border: solid 1px #000">
-				<g id="bodyVIZ" style="transform:translate(100,100px)"></g>
-				<g id="yAxis"></g>
-				<g id="xAxis"></g>
-				<g id="yLine"></g>
-    		
-		</svg>
+		<div id="contenedor" >
+			<g id="bodyVIZ" style="transform:translate(0,0px)"></g>	    		
+		</div>
 
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.js' %}"> </script>
 		
@@ -78,8 +81,9 @@
             .size([diameter, diameter])
             .padding(1.5);
 
-		var svg = d3.selectAll("#container").select("#bodyVIZ")
+		var svg = d3.selectAll("#contenedor").select("#bodyVIZ")
             .append("svg")
+	    .attr("id","svgScroll")
             .attr("width", diameter)
             .attr("height", diameter)
             .attr("class", "bubble");
