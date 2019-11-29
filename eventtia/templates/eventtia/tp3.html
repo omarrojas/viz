@@ -68,8 +68,7 @@
 		
 		<div class="row"> 
 		  <svg id="container" height="500" width="600"  style="border: solid 1px #000">
-
-				<g id="bodyVIZ" style="transform:translate(0,0)"></g>
+				<g id="bodyVIZ" ></g>
 		  </svg>
 		</div>
 
@@ -108,19 +107,14 @@
 		
 
 		var width = 400
-
 		var height = 400
-
 		var widthSquare=15
-
 		var widthSquareDiv2=7.5
-
 		var edgeHash = {};
 
 		edges.forEach(edge =>{
 
 			var id = edge.source + "-" + edge.target
-
 			edgeHash[id] = edge
 
 		})
@@ -132,119 +126,79 @@
 
 		let i=1;
 
-		nodes.forEach((source, a) => {	
-
-			if(source.role =="participante"){				
-
+		nodes.forEach((source, a) => {
+			if(source.role =="participante"){
 				let j=1;
-
 				nodes.forEach((target, b) => {
-
-					if(target.role =="evento"){						
-
+					if(target.role =="evento"){
 						var grid = {"id": target.id + "-" + source.id, "x": j, "y": i, "weight": 0};
-
-						j++;						
-
+						j++;
 						if(edgeHash[grid.id]){
-
-							grid.weight = edgeHash[grid.id].weight;							
-
-						}						
-
-						matrix.push(grid)
-
-					}				
-
+							grid.weight = edgeHash[grid.id].weight;
+						}
+						matrix.push(grid);
+					}
 				})
-
 				i++;
-
-			}			
-
+			}
 		})		
 
 		//console.log('matrix',matrix)		
 
 
 
-	var svg = d3.select("svg")	
+	var bodyVIZ = d3.select("svg").select("#bodyVIZ")	
+	
+	bodyVIZ.attr("transform","translate(200,0)")
+	
+	bodyVIZ
+	.append("text")
+	.text("Participantes / Eventos")
+	.style("text-anchor","start")
+	.style("font-size","14px")
+	.style("font-weight","bold")
+	.attr("x",-145)
+	.attr("y",35)
 
-	d3.select("svg").append("g")
-
+	bodyVIZ.append("g")
 		.attr("transform","translate(35,35)")
-
 		.attr("id","adjacencyG")
-
 		.selectAll("rect")
-
 		.data(matrix)
-
 		.enter()
-
 		.append("rect")
-
 		.attr("class","grid")
-
 		.attr("width",widthSquare)
-
 		.attr("height",widthSquare)
-
 		.attr("x", d=> d.x*widthSquare)
-
 		.attr("y", d=> d.y*widthSquare)
-
 		.style("fill-opacity", d=> d.weight * .2)//*/
-
 		
 
-	d3.select("svg")
-
-		.append("g")
-
+	bodyVIZ.append("g")
 		.attr("transform","translate(50,45)")
-
 		.selectAll("text")
-
 		.data(nodeEventos(nodes))
-
 		.enter()
-
 		.append("text")
-
-		//.attr("x", (d,i) => i * widthSquare + widthSquareDiv2)
-	
-	        .attr("transform", function(d,i){
-			var vx = i * widthSquare + widthSquareDiv2;
+		.attr("transform", function(d,i){
+			var vx = i * widthSquare + widthSquareDiv2+5;
 			return "translate("+vx+",-10) rotate(300)";			
-		})
-
+		 })
 		.text(d => d.id)
-
-		.style("text-anchor","middle")
-
+		.style("text-anchor","start")
 		.style("font-size","10px")//*/
 
-		
 
-	d3.select("svg")
-
-		.append("g").attr("transform","translate(45,50)")
-
+	bodyVIZ.append("g")
+		.attr("transform","translate(-150,52)")
 		.selectAll("text")
-
 		.data(nodeParticipantes(nodes))
-
 		.enter()
-
 		.append("text")
-
 		.attr("y",(d,i) => i * widthSquare + widthSquareDiv2)
-
 		.text(d => d.id)
-
-		.style("text-anchor","end")
-
+		.style("text-anchor","start")
 		.style("font-size","10px")
 
 
