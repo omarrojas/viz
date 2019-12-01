@@ -20,6 +20,12 @@ function dibujaMapa(datosPar, sele){
     // if( sele == 1) limiteSupe = valueAsis;
     // else limiteSupe = valueDepo;
 
+    const layout = d3.treemap()
+    .tile(d3.treemapSquarify)
+    .size([width, width*3/4])
+    .round(true)
+    .paddingInner(1);
+
     const hierarchy = (data) => d3.hierarchy(
         {key: "", values:data},
         d => d.values)
