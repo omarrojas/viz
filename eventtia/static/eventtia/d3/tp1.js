@@ -11,6 +11,11 @@ console.log( "ejecutandose: " + seleccion);
 
 const myMapa = dibujaMapa(datosd,seleccion);
 
+d3.select("#chart").html("");
+    d3.select("#chart")
+      .node()
+      .appendChild(myMapa);
+
 console.log( "termina");
 
 function dibujaMapa(datosPar, sele){
