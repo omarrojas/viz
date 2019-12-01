@@ -6,18 +6,18 @@ circle.attr("r", 10);
 
 datosd  = d3.csv('https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv');
 
-dibujaMapa(datosd);
+dibujaMapa(datosd,seleccion);
 
-let seleccion = d3.select("#seleccion").property("value");
+seleccion = d3.select("#seleccion").property("value");
 
 console.log( "ejecutandose: " + seleccion);
 
-function dibujaMapa(datosPar){
+function dibujaMapa(datosPar, sele){
   
     var format = d3.format(",.2s");
     var limiteSupe;
     
-    if( seleccion == 1) limiteSupe = valueAsis;
+    if( sele == 1) limiteSupe = valueAsis;
     else limiteSupe = valueDepo;
 
     const hierarchy = (data) => d3.hierarchy(
