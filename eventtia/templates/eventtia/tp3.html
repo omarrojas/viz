@@ -1,6 +1,32 @@
+
 {% extends "eventtia/template.html" %}
+
+{% load static %}
+
 {% load staticfiles %}
+
 {% block tarea %}
+
+
+<style>
+.grid {
+    stroke: #9A8B7A;
+	stroke-width: 1px; fill: #55807e;
+} 
+.arc {
+    stroke: #9A8B7A;
+	fill: none;
+}
+.node {    
+	fill: #c1ebea;
+	stroke:#7a9a92; 
+	stroke-width: 1px;
+}
+</style>
+
+<script src="{% static 'eventtia/js/bootstrap.min.js' %}"></script>
+
+
 
 <section class="ftco-section ftco-bread">
 	<div class="container">
@@ -11,27 +37,227 @@
 		</div>
 	</div>
 </section>
+
 			
+
+<section class="ftco-section">
+  	<div class="container">
+    	<div class="row">
+    	  	<div class="media-body p-2 mt-2">
+            	<h4 class="heading mb-3">Identificar a cuáles eventos participó un asistente en un año dado</h4>
+          	</div>  
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12" style="border: solid 1px #000">		
+				 <form method="post" action="tp3"> 
+				  	{% csrf_token %}
+				  	{{ formset }}
+					<label for="rangeVal"> Participantes que han asistido a mas de :</label>
+				    <input type ="range" max="15" min="2"
+				        oninput="document.getElementById('rangeValLabel').innerHTML = this.value;"
+				        step="1" name="rangeVal" id="rangeVal" value="{%if amountEven is not null%}{{amountEven}}{%else%}2{%endif%}">
+				    </input>
+				    <em id="rangeValLabel" style="font-style: normal;">{%if amountEven is not null%}{{amountEven}}{%else%}2{%endif%}</em>
+				    <label for="enviar"> Eventos </label>
+				  	<button id="enviar" type="submit" class="btn btn-primary">Visulaizar</button>			
+				 </form> 
+				 
+				<script type="text/javascript" > 
+					function updateTextInput(val) {
+			          document.getElementById('rangeValLabel').value=val; 
+			        }
+		        </script>
+			</div>		
+					
+		</div>		
+		
+		<div class="row"> 
+    	  	<div class="media-body p-2 mt-2">
+            	<h4 class="heading mb-3">Participantes por Evento  {% if buscado is not null%}  año {{buscado}}, han asistido a más de {{amountEven}} Eventos {%endif%}</h4>
+          	</div> 
+		</div>
+		
+		
+		<div class="row"> 
+		  <svg id="container" height="600" width="1000"  style="border: solid 1px #000">
+				<g id="bodyVIZ" ></g>
+		  </svg>
+		</div>
+
+		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
+
+		
+
+{%if nodelist is not null %}
+
+		
+
+<script type="text/javascript" > 
+
+	console.log("inicia VIZ TP3")	
+
+	/*Promise.all([  
+		d3.csv("static/eventtia/d3/tp3_nodelist.csv"),  
+		d3.csv("static/eventtia/d3/tp3_edgelist.csv")
+    ]).then(function(data){ 
+      createAdjacencyMatrix(data);
+    });*/
+
+    createAdjacencyMatrix();
+	
+    function createAdjacencyMatrix(){
+
+    let nodes = {{nodelist | safe}}
+    let edges = {{edgelist | safe}}
+
+    //let nodes = data[0];
+    //let edges =data[1];   
+
+    //console.log('nodes',nodes);
+    //console.log('edges',edges);
+
+		
+
+		var width = 400
+		var height = 400
+		var widthSquare=15
+		var widthSquareDiv2=7.5
+		var edgeHash = {};
+
+		edges.forEach(edge =>{
+
+			var id = edge.source + "-" + edge.target
+			edgeHash[id] = edge
+
+		})
+
+		//console.log(edgeHash)	
+			
+
+		var matrix = []
+
+		let i=1;
+
+		nodes.forEach((source, a) => {
+			if(source.role =="participante"){
+				let j=1;
+				nodes.forEach((target, b) => {
+					if(target.role =="evento"){
+						var grid = {"id": target.id + "-" + source.id, "x": j, "y": i, "weight": 0, "type":target.type};
+						j++;
+						if(edgeHash[grid.id]){
+							grid.weight = edgeHash[grid.id].weight;
+						}
+						matrix.push(grid);
+					}
+				})
+				i++;
+			}
+		})		
+
+		console.log('matrix',matrix)		
+
+
+
+	var bodyVIZ = d3.select("svg").select("#bodyVIZ")	
+	
+	bodyVIZ.attr("transform","translate(200,0)")
+	
+	bodyVIZ
+	.append("text")
+	.text("Participantes / Eventos")
+	.style("text-anchor","start")
+	.style("font-size","14px")
+	.style("font-weight","bold")
+	.attr("x",-145)
+	.attr("y",35)
+
+	bodyVIZ.append("g")
+		.attr("transform","translate(35,35)")
+		.attr("id","adjacencyG")
+		.selectAll("rect")
+		.data(matrix)
+		.enter()
+		.append("rect")		
+		.attr("class","grid")
+		.attr("width",widthSquare)
+		.attr("height",widthSquare)
+		.attr("x", d=> d.x*widthSquare)
+		.attr("y", d=> d.y*widthSquare)
+		.style("fill-opacity", d=> d.weight * .2)
+		.append("title")
+            .text(function(d) {
+                return "Evento tipo: "+d.type;
+            })
+		
+
+	bodyVIZ.append("g")
+		.attr("transform","translate(50,45)")
+		.selectAll("text")
+		.data(nodeEventos(nodes))
+		.enter()
+		.append("text")
+		.attr("transform", function(d,i){
+			var vx = i * widthSquare + widthSquareDiv2+5;
+			return "translate("+vx+",-10) rotate(300)";			
+		 })
+		.text(d => d.id)
+		.style("text-anchor","start")
+		.style("font-size","10px")//*/
+
+
+	bodyVIZ.append("g")
+		.attr("transform","translate(-150,52)")
+		.selectAll("text")
+		.data(nodeParticipantes(nodes))
+		.enter()
+		.append("text")
+		.attr("y",(d,i) => i * widthSquare + widthSquareDiv2)
+		.text(d => d.id)
+		.style("text-anchor","start")
+		.style("font-size","10px")
+
+
+	d3.selectAll("rect.grid").on("mouseover", gridOver); 
+	
+
+	function nodeEventos(nodes){
+			return nodes.filter(function (d){ 
+				return d.role =="evento";	
+			})
+	}
+
+
+	function nodeParticipantes(nodes){
+			return nodes.filter(function (d){ 
+				return d.role =="participante";		
+			})
+	}
+	
+
+	function gridOver(d) {
+		d3.selectAll("rect").style("stroke-width", function(p) { return p.x == d.x || p.y == d.y ? "3px" : "1px"});
+	};
+
+ };
+
+</script>	
+
+{%endif%}
+
+</div>
+
+</section>
+
 <section class="ftco-section">
   	<div class="container">
     	<div class="row">    
-    	  	<div class="media-body p-2 mt-2">
-            	<h4 class="heading mb-3">La descripción de la tarea</h4>
-       
-          	</div>     
+    		<h4 class="heading mb-3">Preparación de datos</h4>		
+			 <iframe src="{% static 'eventtia/html/tp3_preparacionDatos.html' %}" name="iframe_a" height="100%" width="100%"></iframe>
+			
 		</div>
-		
-		<svg id="viz" width="720" height="120">
-		  <circle cx="40" cy="60" r="10"></circle>
-		  <circle cx="80" cy="60" r="10"></circle>
-		  <circle cx="120" cy="60" r="10"></circle>
-		</svg> 
-
-		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
-		<script type="text/javascript" src="{% static 'eventtia/d3/tp3.js' %}" > </script>
-		
 	</div>
 </section>
-	    
 
 {% endblock tarea %}

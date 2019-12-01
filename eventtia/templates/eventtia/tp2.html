@@ -1,6 +1,10 @@
 {% extends "eventtia/template.html" %}
 {% load staticfiles %}
 {% block tarea %}
+<script src="https://cdn.jsdelivr.net/npm/vega@5.7.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.0-beta.10"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@5.1.3"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 
 <section class="ftco-section ftco-bread">
 	<div class="container">
@@ -16,8 +20,7 @@
   	<div class="container">
     	<div class="row">    
     	  	<div class="media-body p-2 mt-2">
-            	<h4 class="heading mb-3">Explorar el tiempo requerido para completar un porcentaje de asistencia para iniciar un evento por país o por día de la semana. </h4>
-       
+            	<h4 class="heading mb-3">Explorar el tiempo requerido para completar un porcentaje de asistencia para iniciar un evento por país o por día de la semana.</h4>
           	</div>     
 		</div>
 		
@@ -26,71 +29,237 @@
     	</div-->
 
 		<div id="vis"></div>
+        Countryname: <select id="countryname" name="countryname">
+            <option value="Argentina">Argentina</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Chile">Chile</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Dominican Republic">Dominican Republic</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="France">France</option>
+            <option value="Ivory Coast">Ivory Coast</option>
+            <option value="Jordan">Jordan</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Netherlands">Netherlands</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Spain">Spain</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="United States">United States</option>
+            <option value="Uruguay">Uruguay</option>
+            <option value="Vietnam">Vietnam</option>
+        </select> 
+        Weekday: <select id="weekday" name="weekday">
+            <option value="All">All</option>
+            <option value="Sun">Sunday</option>
+            <option value="Mon">Monday</option>
+            <option value="Tue">Tuesday</option>
+            <option value="Wed">Wednesday</option>
+            <option value="Thu">Thursday</option>
+            <option value="Fri">Friday</option>
+            <option value="Sat">Saturday</option>
+        </select> 
+        <script type="text/javascript">
+            //Set dimensions
+            var m = {top: 50, right: 50, bottom: 50, left: 50}
+                , h = 300 - m.top - m.bottom
+                , w = 800 - m.left - m.right
+                , barWidth = 5;
 
-		<script type="text/javascript">
-		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTP2.csv";
-		  d3.csv(dataCSV)
+            var dataset = null;
+            var xScale = null;     
+            var yhist = null;   
+
+		    var countryname = "Argentina";
+            var weekday = "All";
+            var dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname + 
+                        "&weekday=" + weekday;
+		    d3.json(dataJSON)
 				.then(function(data) {
-					var yourVlSpec = {
-				data: {values: data},
-				title: '% attendees arrives between on time and delay minutes',
-				width: 800,
-				height: 350,
-				mark: 'rect',
-				encoding: {
-					x: { field: 'delay', 
-							type: "ordinal",
-							sort: "y",
-							"axis": {
-							"title": "Delay (minutes)"
-							}
-						},
-					y: { field: 'porc_attendees_acum', type: 'quantitative' ,
-							"axis": {
-							"title": "%attendees"
-							}}
-					},
-					selection: {
-						"weekday": {
-							"type": "single",
-							"fields": ["week_day"],
-							"bind": {"input": "select",       "name": "Weekday ",
-								"options": [
-									"All",
-									"Monday",
-									"Tuesday",
-									"Wednesday",
-									"Thursday",
-									"Friday",
-									"Saturday",
-									"Sunday"
-									]
-								}
-							},
-						"country": {
-							"type": "single",
-							"fields": ["country_name"],
-							"bind": {"input": "select",       "name": "Country ",
-								"options": [null, "Colombia",
-								"Chile",
-								"France",
-								"Mexico",
-								"Spain"
-									]
-								}
-							}
-						},
-					transform: [{
-					filter: {field: "country_name", selection: "country"}
-						}]  
-				}
-				;
-					vegaEmbed('#vis', yourVlSpec);
+                    //typecast attendees # to #, calculate total, and cumulative attendees
+                    var totalAttendees = 0;
+                    for(var i = 0; i < data.length; i++){
+                        data[i].attendees = + data[i].attendees;
+                        totalAttendees += data[i].attendees;
+                        if (i > 0) {
+                            data[i]['CumulativeAttendees'] = data[i].attendees + data[i-1].CumulativeAttendees;
+                        } else {
+                            data[i]['CumulativeAttendees'] = data[i].attendees;
+                        }
+                    }                    
+
+                    //now calculate cumulative % from the cumulative attendees & total, round %
+                    for(var i = 0; i < data.length; i++){
+                        data[i]['CumulativePercentage'] = (data[i]['CumulativeAttendees'] / totalAttendees) * 100;
+                        data[i]['CumulativePercentage'] = parseFloat(data[i]['CumulativePercentage'].toFixed(2));
+                    }
+
+                    dataset = data;
+
+                    //Axes and scales
+                    xScale = d3.scaleBand()
+                        .domain(data.map(function(d) { return d.demora15min; }))
+                        .rangeRound([0, w])
+                        .padding(0.1);
+
+                    yhist = d3.scaleLinear()
+                                    .domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })])
+                                    .range([h, 0]);
+
+                    var ycum = d3.scaleLinear().domain([0, 100]).range([h, 0]);
+
+                    //Draw svg
+                    var svg = d3.select("#vis").append("svg")
+                                .attr("width", w + m.left + m.right)
+                                .attr("height", h + m.top + m.bottom)
+                                .append("g")
+                                .attr("transform", "translate(" + m.left + "," + m.top + ")");
+
+                    //Draw histogram
+                    var bar = svg.selectAll(".bar")
+                                    .data(data)
+                                    .enter().append("g")
+                                    .attr("class", "bar");
+
+                    bar.append("rect")
+                        .attr("x", function(d) { return xScale(d.demora15min); })
+                        .attr("width", xScale.bandwidth())
+                        .attr("y", function(d) { return ycum(d.CumulativePercentage); })
+                        .attr("height", function(d) { return h - ycum(d.CumulativePercentage); });
+
+                    //Draw axes
+                    svg.append("g")
+                        .attr("class", "xaxis")
+                        .attr("transform", "translate(0," + h + ")")
+                        .call(d3.axisBottom(xScale));
+
+                    svg.append("g")
+                        .attr("class", "y axis")
+                        .call(d3.axisLeft(yhist))
+                        .append("text")
+                        .attr("transform", "rotate(-90)")
+                        .attr("y", 6)
+                        .attr("dy", ".71em")
+                        .style("text-anchor", "end")
+                        .text("% attendees acum");
+
+                    // Draw labels
+                    // Title
+                    svg.append("g")
+                        .append('text')
+                        .attr('x', w / 2 + m.left / 2)
+                        .attr('y', -(m.top / 2))
+                        .attr('text-anchor', 'middle')
+                        .text('% attendees arrived between on time and delay minutes');
+
+                    // Y
+                    svg.append("g")
+                        .append('text')
+                        .attr('x', -(h / 2))
+                        .attr('y', - (m.left / 2))
+                        .attr('transform', 'rotate(-90)')
+                        .attr('text-anchor', 'middle')
+                        .text('% attendees acum');
+
 				})
-				.catch(function(error){
-					// handle error   
-				})
-	
+
+            function update(data){
+                //typecast attendees # to #, calculate total, and cumulative attendees
+                var totalAttendees = 0;
+                for(var i = 0; i < data.length; i++){
+                    data[i].attendees = + data[i].attendees;
+                    totalAttendees += data[i].attendees;
+                    if (i > 0) {
+                        data[i]['CumulativeAttendees'] = data[i].attendees + data[i-1].CumulativeAttendees;
+                    } else {
+                        data[i]['CumulativeAttendees'] = data[i].attendees;
+                    }
+                }                    
+
+                //now calculate cumulative % from the cumulative attendees & total, round %
+                for(var i = 0; i < data.length; i++){
+                    data[i]['CumulativePercentage'] = (data[i]['CumulativeAttendees'] / totalAttendees) * 100;
+                    data[i]['CumulativePercentage'] = parseFloat(data[i]['CumulativePercentage'].toFixed(2));
+                }
+                console.log(data.length)
+
+                dataset = data;
+
+                //set domain for the x axis
+                xScale.domain(data.map(function(d) { return d.demora15min; }));
+                    
+                //set domain for y axis
+                yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
+
+                var svg = d3.select("svg")
+                var bar = svg.selectAll(".bar")
+                    .remove()
+                    .exit()
+                    .data(data);
+
+                //now actually give each rectangle the corresponding data
+                d3.select("svg")
+                    .select("g")
+                    .selectAll(".bar")
+                    .data(data)
+                    .enter().append("g")
+                    .attr("class", "bar")
+                    //ok
+                    .append("rect")
+                    .attr("x", function(d) { return xScale(d.demora15min); })
+                    .attr("width", xScale.bandwidth())
+                    .attr("y", function(d) { return yhist(d.CumulativePercentage); })
+                    .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
+/*
+                svg = d3.select("svg")
+                xx = svg.select(".x axis")
+                    .attr("transform", "translate(0," + h + ")")
+                    .call(d3.axisBottom(xScale));
+*/
+                var t = d3.transition()
+                    .duration(500);
+                svg = d3.select("svg");
+
+                xaxis = svg.select(".xaxis"); 
+                console.log("xaxis:");
+                console.log(xaxis.node());
+
+                svg.select(".xaxis")
+                    .transition(t)
+                    .call(d3.axisBottom(xScale));
+                
+/*
+                //Draw axes
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + h + ")")
+                    .call(d3.axisBottom(xScale));
+*/
+            }
+
+            // handle on change event countryname
+            d3.select('#countryname')
+                .on('change', function() {
+                    countryname = d3.select(this).property('value');
+                    dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname + 
+                        "&weekday=" + weekday;
+                    d3.json(dataJSON)
+                    .then(function(data) {
+                        update(data);
+                    });
+                });
+
+            // handle on change event weekday
+            d3.select('#weekday')
+                .on('change', function() {
+                    weekday = d3.select(this).property('value');
+                    dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=" + countryname + 
+                        "&weekday=" + weekday;
+                    d3.json(dataJSON)
+                    .then(function(data) {
+                        update(data);
+                    });
+                });
+            //update(dataset);
 		</script>
 	
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>

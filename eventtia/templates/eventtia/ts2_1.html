@@ -1,6 +1,10 @@
 {% extends "eventtia/template.html" %}
 {% load staticfiles %}
 {% block tarea %}
+<script src="https://cdn.jsdelivr.net/npm/vega@5.7.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.0-beta.10"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@5.1.3"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 
 <section class="ftco-section ftco-bread">
 	<div class="container">
@@ -27,9 +31,11 @@
 		<div id="vis"></div>
 
 		<script type="text/javascript">
-		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTarea2.csv"
-		  d3.csv(dataCSV)
+//		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTarea2.csv"
+		  var dataJSON = "https://viz201920.herokuapp.com/tp2_backend?countryname=Mexico"
+		  d3.json(dataJSON)
 				.then(function(data) {
+					console.log(data)
 					var yourVlSpec = {
 						"title": 'Delay time by attendee type',
 						"data": {values: data},
@@ -37,7 +43,7 @@
 						"height": 350,
 						"mark": "line",
 						"encoding": {
-							"x": {"field": "demora15min", "type": "ordinal",
+							"x": {"field": "demora15min", "type": "ordinal", "sort": {"field": "range_order"},
 								"axis": {
 									"title": "Delay (minutes)"
 									}

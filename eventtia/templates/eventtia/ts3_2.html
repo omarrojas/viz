@@ -1,6 +1,8 @@
 {% extends "eventtia/template.html" %}
 {% load staticfiles %}
+{% load static %}
 {% block tarea %}
+
 
 <section class="ftco-section ftco-bread">
 	<div class="container">
@@ -16,18 +18,32 @@
   	<div class="container">
     	<div class="row">    
     	  	<div class="media-body p-2 mt-2">
-            	<h4 class="heading mb-3">La descripción de la tarea</h4>
+            	<h4 class="heading mb-3">Determine una zona geográfica donde más asisten participantes a eventos</h4>
        
           	</div>     
 		</div>
-		<svg id="viz" width="720" height="120">
-		  <circle cx="40" cy="60" r="10"></circle>
-		  <circle cx="80" cy="60" r="10"></circle>
-		  <circle cx="120" cy="60" r="10"></circle>
-		</svg> 
-
-		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
-		<script type="text/javascript" src="{% static 'eventtia/d3/ts3_2.js' %}" > </script>
+		<div class="row"> 
+			
+			<svg id="container" height="900" width="1024"  style="border: solid 1px #000">
+				<g id="bodyVIZ" style="transform:translate(100,100px)"></g>
+				<g id="yAxis"></g>
+				<g id="xAxis"></g>
+				<g id="yLine"></g>
+    			</svg>
+			<div id="consola">
+				<div style="color: #999">
+					Consola...
+				</div>	
+			</div>
+			<input id="limpia" type="button" value="Limpiar tabla" />
+			<pre id="preText"> </pre>
+		
+			<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
+		
+		  	<script type="text/javascript" src="{% static 'eventtia/d3/ts3_2.js' %}" > </script>		
+		  	<script type="text/javascript" src="{% static 'eventtia/d3/countries.geo.json' %}" > </script>		
+		  	<script type="text/javascript" src="{% static 'eventtia/d3/ts3_2.json' %}" > </script>		
+		</div>
 		
 	</div>
 </section>
