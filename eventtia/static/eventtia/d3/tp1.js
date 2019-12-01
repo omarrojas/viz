@@ -15,6 +15,7 @@ dibujaMapa(datosd,seleccion);
 function dibujaMapa(datosPar, sele){
   
     var format = d3.format(",.2s");
+    var width = 600;
     //var limiteSupe;
     
     // if( sele == 1) limiteSupe = valueAsis;
