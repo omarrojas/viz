@@ -15,10 +15,10 @@ dibujaMapa(datosd,seleccion);
 function dibujaMapa(datosPar, sele){
   
     var format = d3.format(",.2s");
-    var limiteSupe;
+    //var limiteSupe;
     
-    if( sele == 1) limiteSupe = valueAsis;
-    else limiteSupe = valueDepo;
+    // if( sele == 1) limiteSupe = valueAsis;
+    // else limiteSupe = valueDepo;
 
     const hierarchy = (data) => d3.hierarchy(
         {key: "", values:data},
@@ -35,7 +35,8 @@ function dibujaMapa(datosPar, sele){
     const treeData = d3.nest()
     .key(d => d.account_name.trim())
     .key(d => d.event_name.trim())
-    .entries(datosPar.filter(d => d.total_deposits < limiteSupe ));
+    .entries(datosPar.filter(d => d.total_deposits > 0 ));
+    //.entries(datosPar.filter(d => d.total_deposits < limiteSupe ));
     const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, 7))
     
     const treemapData = layout(hierarchy(treeData));
