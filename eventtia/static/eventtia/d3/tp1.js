@@ -43,8 +43,8 @@ function dibujaMapa(datosPar, sele){
     .key(d => d.account_name.trim())
     .key(d => d.event_name.trim())
     .entries(datosPar.filter(d => d.total_deposits > 0 ));
-    //.entries(datosPar.filter(d => d.total_deposits < limiteSupe ));
-    const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, 7))
+    
+    const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, 7));
     
     const treemapData = layout(hierarchy(treeData));
     const svg = d3.create("svg")
