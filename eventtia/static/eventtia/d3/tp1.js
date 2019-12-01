@@ -42,7 +42,7 @@ function dibujaMapa(datosPar, sele){
     const treeData = d3.nest()
     .key(d => d.account_name.trim())
     .key(d => d.event_name.trim())
-    .entries(datosPar.filter(d => d.total_deposits > 0 ));
+    .entries(datosPar);
     
     const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, 7));
     
