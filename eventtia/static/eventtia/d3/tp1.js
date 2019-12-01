@@ -11,6 +11,8 @@ console.log( "ejecutandose: " + seleccion);
 
 const myMapa = dibujaMapa(datosd,seleccion);
 
+console.log( "termina");
+
 function dibujaMapa(datosPar, sele){
   
     var format = d3.format(",.2s");
