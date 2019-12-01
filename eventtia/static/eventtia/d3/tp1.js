@@ -3,6 +3,8 @@ let circle = d3.select("#viz").selectAll("circle");
 circle.style("fill", "steelblue");
 circle.attr("r", 30);
 
+dibujaMapa();
+
 function dibujaMapa(datosPar){
   
     var format = d3.format(",.2s");
@@ -10,6 +12,18 @@ function dibujaMapa(datosPar){
     
     if( seleccion == 1) limiteSupe = valueAsis;
     else limiteSupe = valueDepo;
+
+    const hierarchy = (data) => d3.hierarchy(
+        {key: "", values:data},
+        d => d.values)
+        .eachBefore((d) => {    
+            d.data.name = d.children ? d.data.key : ""; 
+            d.data.name = d.data.name.toLowerCase()
+            d.data.id = (d.parent ? d.parent.data.id + "." : "") + d.data.name;
+        })
+        .sum(d => +d.total_deposits)
+        .sort((a,b) => b.value - a.value);
+
     
     const treeData = d3.nest()
     .key(d => d.account_name.trim())
@@ -41,7 +55,7 @@ function dibujaMapa(datosPar){
         .attr("width", d => d.x1 - d.x0)
         .attr("height", d => d.y1 - d.y0);
     
-    leaf.filter(d => d.x1-d.x0 > 30) // Don't do text on very small nodes 
+    leaf.filter(d => d.x1-d.x0 > 30) 
       .call( leaf => {
         leaf.append("clipPath")
             .attr("id", d => (d.clipUid = DOM.uid("clip")).id)
