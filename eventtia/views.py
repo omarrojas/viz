@@ -41,6 +41,7 @@ def ts2_2(request):
 
 
 from .models import tp3edgelist
+from django.db.models import Count
 from .forms import tp3Form
 def tp3(request):
     if request.method == 'POST':
@@ -50,10 +51,16 @@ def tp3(request):
         if form.is_valid():
             
             month = form.cleaned_data['month'];
-            print('Mes a buscar', month);
+            
+            amountEven = request.POST['rangeVal'];
+            
+            print('Año a buscar', month, "CantidadEventos=",amountEven);
         
         
-            edgelist_T = list(tp3edgelist.objects.filter(year=month));
+            distlist_T = tp3edgelist.objects.filter(year=month).values('target').distinct().annotate(cant=Count('target')).filter(cant__gt=amountEven).values('target')[:35]
+
+
+            edgelist_T = list(tp3edgelist.objects.filter(year=month, target__in=distlist_T));
             #print('edgelist_T',edgelist_T);
             
             edgelist=[];
@@ -61,28 +68,29 @@ def tp3(request):
                 object = {
                     "source":i.source,
                     "target":i.target,
-                    "weight":i.weight,            
+                    "weight":i.weight,       
                     }
                 edgelist.append(object);
             #print('edgelist',edgelist);
             
-            nodelist_S= list(tp3edgelist.objects.values('source').filter(year=month).distinct());
+            nodelist_S= list(tp3edgelist.objects.values('source','type').filter(year=month, target__in=distlist_T).distinct());
             #print('nodelist_S',nodelist_S);
-            nodelist_T= list(tp3edgelist.objects.values('target').filter(year=month).distinct());
+            nodelist_T= list(tp3edgelist.objects.values('target').filter(year=month, target__in=distlist_T).distinct());
             #print('nodelist_T',nodelist_T);
             
             nodelist=[];
             for i in nodelist_S:
                 object = {
                     "id":i['source'],
-                    "role":"evento"
+                    "role":"evento",                    
+                    "type":i['type'],     
                     }
                 nodelist.append(object);
             
             for i in nodelist_T:
                 object = {
                     "id":i['target'],
-                    "role":"participante"
+                    "role":"participante",
                     }
                 nodelist.append(object);
             
@@ -90,7 +98,7 @@ def tp3(request):
             
             #print('nodelist',nodelist)
             
-            return render(request,'eventtia/tp3.html',{"edgelist":edgelist,"nodelist":nodelist,"buscado":month,'formset': form});
+            return render(request,'eventtia/tp3.html',{"edgelist":edgelist,"nodelist":nodelist,"buscado":month,"amountEven":amountEven,'formset': form});
         else:
             print(form)
     else:
@@ -123,7 +131,7 @@ def ts3_1(request):
                 nodelist.append(object);
             
             countTypeList = {"children":nodelist};
-            print('ts3.1',countTypeList);
+            #print('ts3.1',countTypeList);
             
             return render(request,'eventtia/ts3_1.html',{'countTypelist':countTypeList,"buscado":month,'formset': form});
         else:

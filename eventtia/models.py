@@ -7,6 +7,7 @@ class tp3edgelist(models.Model):
     weight=models.IntegerField();
     year = models.IntegerField();
     month = models.TextField();
+    type=models.TextField();
     
 class ts31eventtype(models.Model):
     type=models.TextField();
