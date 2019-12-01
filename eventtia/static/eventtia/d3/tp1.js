@@ -1,16 +1,16 @@
 
 let circle = d3.select("#viz").selectAll("circle");
 circle.style("fill", "steelblue");
-circle.attr("r", 10);
+circle.attr("r", 40);
 
 
 datosd  = d3.csv('https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv');
 
-dibujaMapa(datosd,seleccion);
-
 seleccion = d3.select("#seleccion").property("value");
 
 console.log( "ejecutandose: " + seleccion);
+
+dibujaMapa(datosd,seleccion);
 
 function dibujaMapa(datosPar, sele){
   
