@@ -64,7 +64,10 @@ function dibujaMapa(datosPar, sele){
               
   
     leaf.append("rect")
-        .attr("id", d => (d.leafUid = DOM.uid("leaf")).id)
+        .attr("id", d => (d.leafUid = {
+            id: "O-leaf-741544",
+            href: "#O-leaf-741544"
+          }).id)
         .attr("fill", d => { while (d.depth > 1) d = d.parent; return color(d.data.key); })
         .attr("fill-opacity", 0.6)
         .attr("width", d => d.x1 - d.x0)
@@ -73,7 +76,10 @@ function dibujaMapa(datosPar, sele){
     leaf.filter(d => d.x1-d.x0 > 30) 
       .call( leaf => {
         leaf.append("clipPath")
-            .attr("id", d => (d.clipUid = DOM.uid("clip")).id)
+            .attr("id", d => (d.clipUid = {
+                id: "O-clip-741545",
+                href: "#O-clip-741545"
+              }).id)
           .append("use")
             .attr("xlink:href", d => d.leafUid.href);
   
@@ -102,12 +108,18 @@ function dibujaMapa(datosPar, sele){
     innerNodes.append("rect")
       .style("fill", "none")
       .style("stroke", "#333")
-      .attr("id", d => (d.leafUid = DOM.uid("leaf")).id)
+      .attr("id", d => (d.leafUid = {
+                id: "O-leaf-741545",
+                href: "#O-leaf-741545"
+                        }).id)
       .attr("width", d => d.x1 - d.x0)
       .attr("height", d => d.y1 - d.y0);
     
     innerNodes.append("clipPath")
-      .attr("id", d => (d.clipUid = DOM.uid("clip")).id)
+      .attr("id", d => (d.clipUid = {
+        id: "O-clip-741545",
+        href: "#O-clip-741545"
+      }).id)
       .append("use")
       .attr("xlink:href", d => d.leafUid.href);
   
