@@ -14,22 +14,22 @@ d3.csv(url).then(data => {
 
     console.log("datos cargados ", data);
 
- });
+    seleccion = d3.select("#seleccion").property("value");
 
+    console.log( "ejecutandose: " + seleccion);
 
+    const myMapa = dibujaMapa(data,seleccion);
 
-seleccion = d3.select("#seleccion").property("value");
-
-console.log( "ejecutandose: " + seleccion);
-
-const myMapa = dibujaMapa(datosd,seleccion);
-
-d3.select("#chart").html("");
+    d3.select("#chart").html("");
     d3.select("#chart")
       .node()
       .appendChild(myMapa);
 
-console.log( "termina");
+    console.log( "termina");
+
+ });
+
+
 
 function dibujaMapa(datosPar, sele){
   
