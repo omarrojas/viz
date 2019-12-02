@@ -8,7 +8,7 @@ datosd  = d3.csv('https://raw.githubusercontent.com/mrendonm/visualanalytics/mas
 tData = d3.nest()
 .key(d => d.account_name.trim())
 .key(d => d.event_name.trim())
-.entries(datosd.filter(d => d.total_deposits > 0 ));
+.entries(datosd);
 
 seleccion = d3.select("#seleccion").property("value");
 
