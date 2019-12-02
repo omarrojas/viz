@@ -3,7 +3,7 @@ let circle = d3.select("#viz").selectAll("circle");
 circle.style("fill", "steelblue");
 circle.attr("r", 10);
 
-datosd  = d3.csv('https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv');
+datosd  = d3.csv('https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv').value;
 
 seleccion = d3.select("#seleccion").property("value");
 
