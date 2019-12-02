@@ -3,12 +3,18 @@ let circle = d3.select("#viz").selectAll("circle");
 circle.style("fill", "steelblue");
 circle.attr("r", 10);
 
-datosd  = d3.csv('https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv');
+url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
 
-tData = d3.nest()
-.key(d => d.account_name.trim())
-.key(d => d.event_name.trim())
-.entries(datosd);
+d3.csv(url).then(data => {  
+
+    tData = d3.nest()
+    .key(d => d.account_name.trim())
+    .key(d => d.event_name.trim())
+    .entries(data);
+
+ });
+
+
 
 seleccion = d3.select("#seleccion").property("value");
 
