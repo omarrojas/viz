@@ -7,11 +7,6 @@ url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepo
 
 d3.csv(url).then(data => {  
 
-    tData = d3.nest()
-    .key(d => d.account_name.trim())
-    .key(d => d.event_name.trim())
-    .entries(data);
-
     console.log("datos cargados ", data);
 
     seleccion = d3.select("#seleccion").property("value");
@@ -61,7 +56,7 @@ function dibujaMapa(datosPar, sele){
     const treeData = d3.nest()
     .key(d => d.account_name.trim())
     .key(d => d.event_name.trim())
-    .entries(datosPar);
+    .entries(datosPar.filter(d => d.total_deposits < 30000000 ));
     
     const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, 7));
     
