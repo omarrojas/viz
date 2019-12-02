@@ -12,6 +12,8 @@ d3.csv(url).then(data => {
     .key(d => d.event_name.trim())
     .entries(data);
 
+    console.log("datos cargados ", data);
+
  });
 
 
