@@ -29,7 +29,7 @@ d3.csv(url).then(data => {
 function dibujaMapa(datosPar, sele){
   
     var format = d3.format(",.2s");
-    var width = 600;
+    var width = 500;
     //var limiteSupe;
     
     // if( sele == 1) limiteSupe = valueAsis;
