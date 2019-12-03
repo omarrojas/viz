@@ -48,7 +48,8 @@
 		De tal manera no se puede relacionar a los asistentes de los diferentes eventos.</br>
 	        Por lo anterior, se realizó la relación de los asistente por el <strong>e-mail</strong>	</p>
                 <p> Los eventos no tienen un tipo categorico, por lo tanto se tomó la descripción de cada evento y se categorizaron los eventos.</p>
-                <p>Con el anterior tratamiento de los datos, se puede visualizar a cuales eventios y que tipo de eventos asistio un asistente especifico.</p>	
+                <p>Con el anterior tratamiento de los datos, se puede visualizar a cuales eventios y que tipo de eventos asistio un asistente especifico.</p>
+                
         </div>
 	</div>
 </section>			
@@ -130,7 +131,7 @@
     //console.log('nodes',nodes);
     //console.log('edges',edges);
 
-		
+		var colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
 		var width = 400
 		var height = 400
@@ -198,7 +199,14 @@
 		.attr("height",widthSquare)
 		.attr("x", d=> d.x*widthSquare)
 		.attr("y", d=> d.y*widthSquare)
-		.style("fill-opacity", d=> d.weight * .2)
+		.style("fill", function(d){
+				if(d.weight==0){
+					return "rgb(245,245,245)";
+				}else{
+					return colorScale(d.type);
+				}
+			} 
+		      )
 		.append("title")
             .text(function(d) {
                 return "Evento tipo: "+d.type;
@@ -213,9 +221,9 @@
 		.append("text")
 		.attr("transform", function(d,i){
 			var vx = i * widthSquare + widthSquareDiv2+5;
-			return "translate("+vx+",-10) rotate(300)";			
+			return "translate("+vx+",-8) rotate(300)";			
 		 })
-		.text(d => d.id)
+		.text(d => "Evento "+d.id)
 		.style("text-anchor","start")
 		.style("font-size","10px")//*/
 
