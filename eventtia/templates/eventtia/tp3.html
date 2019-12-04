@@ -52,9 +52,7 @@
                 
         </div>
 	</div>
-</section>			
 
-<section class="ftco-section">
   	<div class="container">
     	<div class="row">
     	  	<div class="media-body p-2 mt-2">
@@ -94,7 +92,7 @@
 		
 		
 		<div class="row"> 
-		  <svg id="container" height="600" width="1000"  style="border: solid 1px #000">
+		  <svg id="container" height={{sizeX_VIZ}} width="1500"  style="border: solid 1px #000">
 				<g id="bodyVIZ" ></g>
 		  </svg>
 		</div>
@@ -176,19 +174,28 @@
 
 	var bodyVIZ = d3.select("svg").select("#bodyVIZ")	
 	
-	bodyVIZ.attr("transform","translate(200,0)")
+	bodyVIZ.attr("transform","translate(155,60)")
 	
 	bodyVIZ
 	.append("text")
-	.text("Participantes / Eventos")
+	.text("Participantes")
 	.style("text-anchor","start")
 	.style("font-size","14px")
 	.style("font-weight","bold")
-	.attr("x",-145)
-	.attr("y",35)
+	.attr("x",-125)
+	.attr("y",25)
+	
+	bodyVIZ
+	.append("text")
+	.text("Eventos")
+	.style("text-anchor","start")
+	.style("font-size","14px")
+	.style("font-weight","bold")
+	.attr("x",70)
+	.attr("y",-40)
 
 	bodyVIZ.append("g")
-		.attr("transform","translate(35,35)")
+		.attr("transform","translate(35,20)")
 		.attr("id","adjacencyG")
 		.selectAll("rect")
 		.data(matrix)
@@ -214,14 +221,14 @@
 		
 
 	bodyVIZ.append("g")
-		.attr("transform","translate(50,45)")
+		.attr("transform","translate(50,30)")
 		.selectAll("text")
 		.data(nodeEventos(nodes))
 		.enter()
 		.append("text")
 		.attr("transform", function(d,i){
 			var vx = i * widthSquare + widthSquareDiv2+5;
-			return "translate("+vx+",-8) rotate(300)";			
+			return "translate("+vx+",-5) rotate(300)";			
 		 })
 		.text(d => "Evento "+d.id)
 		.style("text-anchor","start")
@@ -229,7 +236,7 @@
 
 
 	bodyVIZ.append("g")
-		.attr("transform","translate(-150,52)")
+		.attr("transform","translate(-150,37)")
 		.selectAll("text")
 		.data(nodeParticipantes(nodes))
 		.enter()
@@ -269,19 +276,25 @@
 
 </div>
 
-</section>
-
-
-
-
-<section class="ftco-section">
-  	<div class="container">
-    	<div class="row">    
-    		<h4 class="heading mb-3">Preparación de datos</h4>		
-			 <iframe src="{% static 'eventtia/html/tp3_preparacionDatos.html' %}" name="iframe_a" height="100%" width="100%"></iframe>
-			
-		</div>
+<div class="container">
+    <div class="row">   
+    	<h4 class="heading mb-3">Vizualización</h4>
+    		<p><strong>Parametros: </strong>Se deben seleccionar el año y la cantidad minima de eventos a la que participa un participante. Luego presionar el botón "Vizualizar" </p>
+    		<p><strong>Descripción: </strong>En el eje de las "Y" se muestran los correos de los asistentes organizados alfabeticamente, en el eje de las "X" se muestran los eventos organizados alfabeticamente.</br>
+    			Si un asistente, asistió a un evento la intersección se colorea.</br>
+    			Los diferentes colores, son los diferentes tipos de eventos.
+    		</p>
+			<p><strong>Interactividad:</strong> Al colocar el puntero del mouse, sobre una intersección se muestra un tooltip con el tipo del evento. </p>
+			<p><strong>Nota: </strong>Los datos están anonimizados para proteger los datos de la empresa. La VIZ está configurado para mostrar maximo 100 asistentes por 45 eventos maximos. Y de 2 a 15 cantidad de asistencias</p>
 	</div>
+</div>
+<div class="container">
+	<div class="row">    
+		<h4 class="heading mb-3">Preparación de datos</h4>		
+		 <iframe src="{% static 'eventtia/html/tp3_preparacionDatos.html' %}" name="iframe_a" height="100%" width="100%"></iframe>
+		
+	</div>
+</div>
 </section>
 
 {% endblock tarea %}

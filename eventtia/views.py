@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .vtp2 import tp2_data
+from .vts2_1 import ts2_1_data
+from .vts2_2 import ts2_2_data
 
 # Común para el acceso a la BD
 import sqlite3
@@ -57,7 +59,7 @@ def tp3(request):
             print('Año a buscar', month, "CantidadEventos=",amountEven);
         
         
-            distlist_T = tp3edgelist.objects.filter(year=month).values('target').distinct().annotate(cant=Count('target')).filter(cant__gt=amountEven).values('target')[:35]
+            distlist_T = tp3edgelist.objects.filter(year=month).values('target').distinct().annotate(cant=Count('target')).filter(cant__gt=amountEven).values('target')[:100]
 
 
             edgelist_T = list(tp3edgelist.objects.filter(year=month, target__in=distlist_T));
@@ -73,9 +75,9 @@ def tp3(request):
                 edgelist.append(object);
             #print('edgelist',edgelist);
             
-            nodelist_S= list(tp3edgelist.objects.values('source','type').filter(year=month, target__in=distlist_T).distinct());
+            nodelist_S= list(tp3edgelist.objects.values('source','type').order_by('source').filter(year=month, target__in=distlist_T).distinct())[:45];
             #print('nodelist_S',nodelist_S);
-            nodelist_T= list(tp3edgelist.objects.values('target').filter(year=month, target__in=distlist_T).distinct());
+            nodelist_T= list(tp3edgelist.objects.values('target').order_by('target').filter(year=month, target__in=distlist_T).distinct());
             #print('nodelist_T',nodelist_T);
             
             nodelist=[];
@@ -94,11 +96,11 @@ def tp3(request):
                     }
                 nodelist.append(object);
             
-            
+            sizeX_VIZ= (len(nodelist_T) * 17) + 150
             
             #print('nodelist',nodelist)
             
-            return render(request,'eventtia/tp3.html',{"edgelist":edgelist,"nodelist":nodelist,"buscado":month,"amountEven":amountEven,'formset': form});
+            return render(request,'eventtia/tp3.html',{"edgelist":edgelist,"nodelist":nodelist,"buscado":month,"amountEven":amountEven,"sizeX_VIZ":sizeX_VIZ,'formset': form});
         else:
             print(form)
     else:
@@ -152,4 +154,20 @@ def tp2_backend(request):
         weekday = request.GET['weekday']
         resultado =  tp2_data(connection, countryname, weekday)
     return HttpResponse(resultado, content_type='application/json')
- 
+
+def ts2_1_backend(request):
+    resultado = ""
+    if request.method == "GET":
+        resultado = "hello"
+        attendeetypename = request.GET['attendeetypename']
+        resultado =  ts2_1_data(connection, attendeetypename, )
+    return HttpResponse(resultado, content_type='application/json')
+
+def ts2_2_backend(request):
+    resultado = ""
+    if request.method == "GET":
+        resultado = "hello"
+        countryname = request.GET['countryname']
+        weekday = request.GET['weekday']
+        resultado =  ts2_2_data(connection, countryname, weekday)
+    return HttpResponse(resultado, content_type='application/json')
