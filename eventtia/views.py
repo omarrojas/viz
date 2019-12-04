@@ -154,7 +154,7 @@ def tp2_backend(request):
         resultado =  tp2_data(connection, countryname, weekday)
     return HttpResponse(resultado, content_type='application/json')
 
-def tS2_1_backend(request):
+def ts2_1_backend(request):
     resultado = ""
     if request.method == "GET":
         resultado = "hello"
