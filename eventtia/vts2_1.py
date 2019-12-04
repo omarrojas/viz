@@ -18,7 +18,7 @@ def ts2_1_data(con, attendeetypename):
                     FROM SalidaTarea2
                     GROUP BY attendee_type_name, demora15min, range_order 
                     ORDER BY attendee_type_name, range_order
-            """, (attendeetypename,))
+            """, )
     else:
         cursorObj.execute("""
                 SELECT attendee_type_name, demora15min, range_order, sum(attendees) attendees
