@@ -15,5 +15,6 @@ urlpatterns = [
     path('ts3_2', views.ts3_2, name='ts3_2'),
 
     path('tp2_backend', views.tp2_backend, name='tp2_backend'),
+    path('ts2_1_backend', views.tp2_backend, name='ts2_1_backend'),
     
     ] 

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .vtp2 import tp2_data
+from .vts2_1 import ts2_1_data
 
 # Común para el acceso a la BD
 import sqlite3
@@ -152,4 +153,11 @@ def tp2_backend(request):
         weekday = request.GET['weekday']
         resultado =  tp2_data(connection, countryname, weekday)
     return HttpResponse(resultado, content_type='application/json')
- 
+
+def tS2_1_backend(request):
+    resultado = ""
+    if request.method == "GET":
+        resultado = "hello"
+        attendeetypename = request.GET['attendeetypename']
+        resultado =  ts2_1_data(connection, attendeetypename, )
+    return HttpResponse(resultado, content_type='application/json')
