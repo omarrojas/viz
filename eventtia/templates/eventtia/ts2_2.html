@@ -36,6 +36,7 @@
 		  var dataJSON = "https://viz201920.herokuapp.com/ts2_2_backend?countryname=All&weekday=All";
 		  d3.csv(dataJSON)
 				.then(function(data) {
+					console.log(data)
 					var yourVlSpec = {
 						"title": 'Delay time by weekday and country',
 						"data": {values: data},
