@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 from .vtp2 import tp2_data
 from .vts2_1 import ts2_1_data
+from .vts2_2 import ts2_2_data
 
 # Común para el acceso a la BD
 import sqlite3
@@ -160,4 +161,13 @@ def ts2_1_backend(request):
         resultado = "hello"
         attendeetypename = request.GET['attendeetypename']
         resultado =  ts2_1_data(connection, attendeetypename, )
+    return HttpResponse(resultado, content_type='application/json')
+
+def ts2_2_backend(request):
+    resultado = ""
+    if request.method == "GET":
+        resultado = "hello"
+        countryname = request.GET['countryname']
+        weekday = request.GET['weekday']
+        resultado =  ts2_2_data(connection, countryname, weekday)
     return HttpResponse(resultado, content_type='application/json')
