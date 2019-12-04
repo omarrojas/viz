@@ -32,8 +32,9 @@
 		<div id="vis"></div>
 
 		<script type="text/javascript">
-		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTarea2.csv"
-		  d3.csv(dataCSV)
+//		  var dataCSV = "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTarea2.csv"
+		  var dataJSON = "https://viz201920.herokuapp.com/ts2_2_backend?countryname=All&weekday=All";
+		  d3.csv(dataJSON)
 				.then(function(data) {
 					var yourVlSpec = {
 						"title": 'Delay time by weekday and country',
