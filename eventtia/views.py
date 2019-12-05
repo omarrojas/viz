@@ -115,15 +115,21 @@ from django.db.models import Count
 def ts3_1(request):
     if request.method == 'POST':
         
-        form = tp3Form(request.POST);
+        form = ts31Form(request.POST);
         
-        if form.is_valid():
+        if form.is_valid():            
             
-            month = form.cleaned_data['month'];
-            print('Año a buscar', month);
+            month =  form.cleaned_data['month']
+            email = form.cleaned_data["email"]
             
-            countType = list(ts31eventtype.objects.filter(year=month).values('type').annotate(count=Count('type')));
+            print('Año a buscar', month, 'email',email);
             
+            if(email == ""):
+                countType = list(ts31eventtype.objects.filter(year=month).values('type').annotate(count=Count('type')));                
+            else:
+                countType = list(tp3edgelist.objects.filter(year=month,target=email).values('type').annotate(count=Count('type')));
+                            
+                        
             nodelist=[];
             for i in countType:        
                 object = {
