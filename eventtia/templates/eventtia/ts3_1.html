@@ -72,8 +72,7 @@
 			console.log("submitVIZ");
 			//document.forms['formulario'].submit();
 			
-	}
-</script>
+	}</script>
 
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.js' %}"> </script>
 		
@@ -97,7 +96,7 @@
         console.log('dataset',dataset);
 
         var diameter = 600;
-        var color = d3.scaleOrdinal(d3.schemeCategory20);
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
 
         var bubble = d3.pack(dataset)
             .size([diameter, diameter])
