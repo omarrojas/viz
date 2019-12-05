@@ -96,7 +96,8 @@
         console.log('dataset',dataset);
 
         var diameter = 600;
-        var color = d3.scaleOrdinal(d3.schemeCategory10);
+        var color = d3.scaleOrdinal()
+	.range(["#caffcd","#ffcaf8","#f7d708","#f1b4b2","#030449","#003366","#1c29b5","#0f4c81","#005555","#c2002c","#81d8d0","#744044","#b5bd00","#dec9ab","#d25757","#bc9797"]);
 
         var bubble = d3.pack(dataset)
             .size([diameter, diameter])
