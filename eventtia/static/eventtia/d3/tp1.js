@@ -29,6 +29,7 @@ d3.select('#rangAsis')
     console.log( "limite: " + limiteSupe);
 
     d3.select('#numEventos').attr('text', limiteSupe);
+    d3.select('#numEventos').attr('value', limiteSupe);
 
     leeDatos();
 
