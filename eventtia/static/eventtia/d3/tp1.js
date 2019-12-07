@@ -46,6 +46,7 @@ function leeDatos(){
     d3.select("#chart").html("");
     d3.select("#chart")
       .node()
+      .appendChild('<text>PRUEBA</text>')
       .appendChild(myMapa);
 
     console.log( "termina");
