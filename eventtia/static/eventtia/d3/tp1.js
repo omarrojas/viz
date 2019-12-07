@@ -5,18 +5,20 @@ circle.attr("r", 10);
 
 //url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
 
-seleccion = d3.select("#seleccion").property("value");
-
-if(seleccion == 1) 
-    url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
-else
-    url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
-
-d3.csv(url).then(data => {  
-
-    console.log("datos cargados ", data);
+d3.select('#seleccion')
+  .on('change', function() {
+    var seleccion = eval(d3.select(this).property('value'));
 
     console.log( "ejecutandose: " + seleccion);
+
+    if(seleccion == 1) 
+      url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
+    else
+      url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
+
+    d3.csv(url).then(data => {  
+
+    console.log("datos cargados ", data);
 
     const myMapa = dibujaMapa(data,seleccion);
 
@@ -29,7 +31,8 @@ d3.csv(url).then(data => {
 
  });
 
-
+});
+//seleccion = d3.select("#seleccion").property("value");
 
 function dibujaMapa(datosPar, sele){
   
