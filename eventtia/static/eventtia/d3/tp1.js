@@ -155,7 +155,7 @@ function dibujaMapa(datosPar, sele){
       .attr("y", d => d.depth === 1 ? 30 : (d.y1 - d.y0)/2 )
       .attr("x", d => (d.x1 - d.x0)/2 )
       .style("text-anchor", "middle")
-      .style("font-size", "5em")
+      .style("font-size", "3em")
       .attr("fill-opacity", 0.3)
       .style("stroke", "white")
       .style("stroke-width", d => d.depth === 1 ? 1: 0.5)
