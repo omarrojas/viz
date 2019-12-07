@@ -33,8 +33,12 @@
 						</select>
 					</td>
 				</tr>
-				<tr><td>Eventos hasta <a id="numEventos">0</a>
-					<input id="rangAsis" type=range min="0" max="10000" step="1000" oninput="document.getElementById('numEventos').innerHTML = this.value;" ></td><td>asistentes</td> </tr>
+				<tr><td>Eventos hasta <a id="numAsis"></a>
+					<input id="rangAsis" type=range min="0" max="10000" step="1000" oninput="document.getElementById('numAsis').innerHTML = this.value;" ></td><td>asistentes</td>
+				</tr>
+				<tr><td>Eventos hasta <a id="numDepos"></a>
+					<input id="rangDepos" type=range  min="0" max="40000000" step="1000000" oninput="document.getElementById('numDepos').innerHTML = this.value;" ></td><td>$</td>
+				</tr>
 			</table>
 
 			<div id="chart"></div>
