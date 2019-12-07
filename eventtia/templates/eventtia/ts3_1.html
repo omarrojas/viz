@@ -1,5 +1,4 @@
 {% extends "eventtia/template.html" %}
-{% load staticfiles %}
 {% load static %}
 {% block tarea %}
 
@@ -21,17 +20,32 @@
 </section>
 			
 <section class="ftco-section">
+
+	<div class="container">
+    	<div class="row">   
+    		<h4 class="heading mb-3">Empresa de Eventos Eventtia</h4>   		
+			<br>
+			<p> Eventtia cuidando su negocio, anonimizó los datos que nos suministró. </p>
+			<p> Eventtia provee un servicio en la cúal pagando una suscripción se puede gestionar un evento. </br> 
+			En la plataforma no se maneja un ID general del asistente, sino un IDE por evento. 
+			De tal manera no se puede relacionar a los asistentes de los diferentes eventos.</br>
+		        Por lo anterior, se realizó la relación de los asistente por el <strong>e-mail</strong>	</p>
+            <p> Los eventos no tienen un tipo categorico, por lo tanto se tomó la descripción de cada evento y se categorizaron los eventos.</p>
+	        <p>Con el anterior tratamiento de los datos, se puede visualizar a cuales eventios y que tipo de eventos asistio un asistente especifico.</p>
+                
+        </div>
+	</div>
+
   	<div class="container">
     	<div class="row">    
     	  	<div class="media-body p-2 mt-2">
-            	<h4 class="heading mb-3">Identificar el tema de más interés de los participantes, para un año dado. </h4>
-       
+            	<h4 class="heading mb-3">Identificar el tema de más interés de los participantes, para un año dado. </h4>       
           	</div>     
 		</div>
 		
 		<div class="row">
-			<div class="col-sm-12">		
-				 <form method="post" action="ts3_1"> 
+			<div class="col-sm-12" style="border: solid 1px #000">		
+				 <form id="formulario" method="post" action="ts3_1"> 
 				  {% csrf_token %}
 				  {{ formset }}
 				  <button type="submit" class="btn btn-primary">Visulaizar</button>				  
@@ -47,11 +61,18 @@
 		</div>
 		
 		
-		<div class="row"> 		 	
-		
-		<div id="contenedor" >
-			<g id="bodyVIZ" style="transform:translate(0,0px)"></g>	    		
+		<div class="row">	
+			<div id="contenedor" >
+				<g id="bodyVIZ" style="transform:translate(0,0px)"></g>	    		
+			</div>
 		</div>
+	</div>
+<script type="text/javascript" > 
+	function submitVIZ(){
+			console.log("submitVIZ");
+			//document.forms['formulario'].submit();
+			
+	}</script>
 
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.js' %}"> </script>
 		
@@ -75,7 +96,8 @@
         console.log('dataset',dataset);
 
         var diameter = 600;
-        var color = d3.scaleOrdinal(d3.schemeCategory10);
+        var color = d3.scaleOrdinal()
+	.range(["#caffcd","#ffcaf8","#f7d708","#f1b4b2","#030449","#003366","#1c29b5","#0f4c81","#005555","#c2002c","#81d8d0","#744044","#b5bd00","#dec9ab","#d25757","#bc9797"]);
 
         var bubble = d3.pack(dataset)
             .size([diameter, diameter])
@@ -147,9 +169,27 @@
 		</script>	
 		{%endif%}
 		
-		</div>
+		
+		
+<div class="container">
+    <div class="row">   
+    	<h4 class="heading mb-3">Vizualización</h4>
+    		<p><strong>Parametros: </strong>Se deben seleccionar el año y opcionalmete el <strong>email</strong> de un participante. Luego presionar el botón "Vizualizar" </p>
+	        <p><strong>Descripción: </strong>Si se diligenció un <strong>email</strong> se muestran los datos de ese asistente. Si no se muestran los datos de asistencia en general.</br>
+		    Las área de cada circulo, son proporcionales por asistencias</br>
+    	            Los diferentes colores, son los diferentes tipos de eventos.
+    		</p>
+		<p><strong>Interactividad:</strong> Al colocar el puntero del mouse, sobre un circulo se muestra un tooltip con el tipo del evento y la cantidad de asistencias. </p>
+		<p><strong>Nota: </strong>Los datos están anonimizados para proteger los datos de la empresa.</p>
+	</div>
+</div>
+<div class="container">
+	<div class="row">    
+		<h4 class="heading mb-3">Preparación de datos</h4>		
+		 <iframe src="{% static 'eventtia/html/tp3_preparacionDatos.html' %}" name="iframe_a" height="100%" width="100%"></iframe>
 		
 	</div>
+</div>
 </section>
 	    
 

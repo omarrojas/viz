@@ -21,15 +21,14 @@
             	<h4 class="heading mb-3">Determine una zona geográfica donde más asisten participantes a eventos</h4>
        
           	</div>     
-		</div>
-		<div class="row"> 
+	</div>
+	
+	<div class="row"> 
 			
-			<svg id="container" height="900" width="1024"  style="border: solid 1px #000">
-				<g id="bodyVIZ" style="transform:translate(100,100px)"></g>
-				<g id="yAxis"></g>
-				<g id="xAxis"></g>
-				<g id="yLine"></g>
-    			</svg>
+			<div id="contenedor"  style="border: solid 1px #000">
+				<g id="bodyVIZ""></g>
+				
+    			</div>
 			<div id="consola">
 				<div style="color: #999">
 					Consola...
@@ -38,15 +37,96 @@
 			<input id="limpia" type="button" value="Limpiar tabla" />
 			<pre id="preText"> </pre>
 		
-			<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
-		
-		  	<script type="text/javascript" src="{% static 'eventtia/d3/ts3_2.js' %}" > </script>		
-		  	<script type="text/javascript" src="{% static 'eventtia/d3/countries.geo.json' %}" > </script>		
+			<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>		  			
+		  	<script type="text/javascript" src="{% static 'eventtia/d3/departamentos_colombia.geojson' %}" > </script>		
 		  	<script type="text/javascript" src="{% static 'eventtia/d3/ts3_2.json' %}" > </script>		
 		</div>
 		
 	</div>
 </section>
 	    
+												  
+<script type="text/javascript" > 
+
+		//https://victoriaericob.carto.com/tables/departamentos_colombia/public
+		console.log("inicia VIZ TS3.2");
+	
+var promiseWrapper = (d) => new Promise(resolve => d3.json(d, (p) => resolve(p)))
+	
+Promise.all([ 
+promiseWrapper({% static 'eventtia/d3/departamentos_colombia.geojson' %})
+,promiseWrapper({% static 'eventtia/d3/ts3_2.json' %}) ])
+.then(resolve => {
+        showData(resolve[0],resolve[1]);
+     });
+
+function showData(datasources0,datasources1) {    
+
+        console.log("showData");
+        let bodyHeight = 700
+        let bodyWidth = 900
+
+        let mapInfo = datasources0;
+        let dataOrginal = datasources1;    
+
+        console.log("dataOrginal",dataOrginal);
+		console.log("mapInfo",mapInfo);
+		console.log("mapInfo",mapInfo.features);
+
+		let dataGraficar = dataOrginal;
+
+        var projecion = d3.geoMercator()
+                .scale(2000)
+
+        var geoPath = d3.geoPath()
+            .projection(projecion);   
+
+	var body = d3.select("#contenedor").select("#bodyVIZ");	
+		
+	var svg =  body.append("svg");
+
+        svg = svg
+		.attr("width",bodyWidth)
+		.attr("height",bodyHeight).append("g").attr("transform","translate(2400,200)");
+		
+	svg.selectAll("path")
+	    .data(mapInfo.features)
+            .enter()
+	    .append("path")
+            .attr("d", geoPath)
+            .attr("stroke", "#333")
+            .attr("fill", "#ccc")
+	    .on("mouseover",function(d) {					
+			d3.select(this)
+			.classed("active",true)
+  	     })
+  	     .on("mouseout",function(d){  	
+			   d3.select(this)
+      			   .classed("active",false)
+    	     });
+
+		//////
+	svg.selectAll("circle")
+            .data(dataGraficar)
+            .enter()
+            .append("circle")
+            .attr("r", 5)
+            .attr("fill", "#0055AA")
+            .style("opacity", 0.5)
+            .attr("cx", d => projecion([+d.longitude, +d.latitude])[0])
+            .attr("cy", d => projecion([+d.longitude, +d.latitude])[1])
+	    .on("mouseover",function(d) {
+   			d3.select(this)
+      			.classed("active",true)
+  	     })
+  	     .on("mouseout",function(d){
+    			d3.select(this)
+      			.classed("active",false)
+    	     }); 			
+ }
+
+</script>	
+												  
+												  
 
 {% endblock tarea %}
