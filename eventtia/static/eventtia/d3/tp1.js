@@ -3,6 +3,8 @@
 //circle.style("fill", "steelblue");
 //circle.attr("r", 10);
 url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
+limiteSupe = 30000000;
+
 leeDatos();
 
 d3.select('#seleccion')
@@ -15,6 +17,19 @@ d3.select('#seleccion')
       url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
     else
       url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
+
+    leeDatos();
+
+});
+
+d3.select('#rangAsis')
+  .on('change', function() {
+    limiteSupe = eval(d3.select(this).property('value'));
+
+    console.log( "limite: " + limiteSupe);
+
+    d3.select('#numEventos').attr('text', limiteSupe);
+    d3.select('#numEventos').attr('value', limiteSupe);
 
     leeDatos();
 
@@ -43,7 +58,6 @@ function dibujaMapa(datosPar, sele){
   
     var format = d3.format(",.2s");
     var width = 500;
-    //var limiteSupe;
     
     // if( sele == 1) limiteSupe = valueAsis;
     // else limiteSupe = valueDepo;
@@ -69,7 +83,7 @@ function dibujaMapa(datosPar, sele){
     const treeData = d3.nest()
     .key(d => d.account_name.trim())
     .key(d => d.event_name.trim())
-    .entries(datosPar.filter(d => d.total_deposits < 30000000 ));
+    .entries(datosPar.filter(d => d.total_deposits < limiteSupe ));
     
     const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, 7));
     

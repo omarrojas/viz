@@ -1,5 +1,5 @@
 {% extends "eventtia/template.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block tarea %}
 <script src="https://cdn.jsdelivr.net/npm/vega@5.7.2"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.0-beta.10"></script>
@@ -49,7 +49,12 @@
 									}
 								},
 							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative"},
-							"color": {"field": "attendee_type_name", "type": "nominal"}    
+							"color": {"field": "attendee_type_name", "type": "nominal"},
+							"tooltip": [
+									{"field": "attendee_type_name", "type": "nominal"},
+									{"field": "demora15min", "type": "ordinal"},
+									{"field": "attendees", "type": "quantitative"}
+								]    
 						},
 						"selection": {
 												"attendee_type": {
@@ -57,7 +62,7 @@
 													"fields": ["attendee_type_name"],
 													"bind": {"input": "select",       "name": "Attendee Type ",
 														"options": [
-															"All",
+															null,
 															"Asistant",
 															"Buyers",
 															"Consultant",

@@ -1,5 +1,5 @@
 {% extends "eventtia/template.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block tarea %}
 
 <section class="ftco-section ftco-bread">
@@ -26,13 +26,15 @@
 				<circle cx="80" cy="60" r="10"></circle>
 				<circle cx="120" cy="60" r="10"></circle>
 			</svg> -->
-
-			<select id="seleccion">
-				<option value="1">Asistentes
-				<option value="2">Depósitos en $
-			</select>
-
-			<input id="rangAsis" type=range min="0" max="10000" step="1000">
+			<table>
+				<tr><td colspan="2"><select id="seleccion">
+						<option value="1">Asistentes
+						<option value="2">Depósitos en $
+						</select>
+					</td>
+				</tr>
+				<tr><td>Eventos hasta <a id="numEventos">0</a><input id="rangAsis" type=range min="0" max="10000" step="1000"></td><td>asistentes</td> </tr>
+			</table>
 
 			<div id="chart"></div>
 

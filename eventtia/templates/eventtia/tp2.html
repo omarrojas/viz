@@ -1,4 +1,5 @@
 {% extends "eventtia/template.html" %}
+{% load static %}
 {% block tarea %}
 <script src="https://cdn.jsdelivr.net/npm/vega@5.7.2"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.0-beta.10"></script>
@@ -106,6 +107,13 @@
 
                     var ycum = d3.scaleLinear().domain([0, 100]).range([h, 0]);
 
+                    // Define the div for the tooltip
+                    const div = d3
+                        .select('body')
+                        .append('div')
+                        .attr('class', 'tooltip')
+                        .style('opacity', 0);
+
                     //Draw svg
                     var svg = d3.select("#vis").append("svg")
                                 .attr("width", w + m.left + m.right)
@@ -123,7 +131,23 @@
                         .attr("x", function(d) { return xScale(d.demora15min); })
                         .attr("width", xScale.bandwidth())
                         .attr("y", function(d) { return ycum(d.CumulativePercentage); })
-                        .attr("height", function(d) { return h - ycum(d.CumulativePercentage); });
+                        .attr("height", function(d) { return h - ycum(d.CumulativePercentage); })
+                        .on('mouseover', d => {
+                            div
+                                .transition()
+                                .duration(200)
+                                .style('opacity', 0.9);
+                            div
+                                .html(parseFloat(d.CumulativePercentage).toFixed(2)+"%")
+                                .style('left', d3.event.pageX + 'px')
+                                .style('top', d3.event.pageY - 28 + 'px');
+                            })
+                            .on('mouseout', () => {
+                            div
+                                .transition()
+                                .duration(500)
+                                .style('opacity', 0);
+                            });    
 
                     //Draw axes
                     svg.append("g")
@@ -189,6 +213,9 @@
                 //set domain for y axis
                 yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
 
+                // Define the div for the tooltip
+                var div = svg.select(".tooltip"); 
+
                 var svg = d3.select("svg")
                 var bar = svg.selectAll(".bar")
                     .remove()
@@ -207,7 +234,24 @@
                     .attr("x", function(d) { return xScale(d.demora15min); })
                     .attr("width", xScale.bandwidth())
                     .attr("y", function(d) { return yhist(d.CumulativePercentage); })
-                    .attr("height", function(d) { return h - yhist(d.CumulativePercentage); });
+                    .attr("height", function(d) { return h - yhist(d.CumulativePercentage); })
+                    .on('mouseover', d => {
+                            div
+                                .transition()
+                                .duration(200)
+                                .style('opacity', 0.9);
+                            div
+                                .html(parseFloat(d.CumulativePercentage).toFixed(2)+"%")
+                                .style('left', d3.event.pageX + 'px')
+                                .style('top', d3.event.pageY - 28 + 'px');
+                            })
+                            .on('mouseout', () => {
+                            div
+                                .transition()
+                                .duration(500)
+                                .style('opacity', 0);
+                            });    
+
 /*
                 svg = d3.select("svg")
                 xx = svg.select(".x axis")
