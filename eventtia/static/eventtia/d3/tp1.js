@@ -20,6 +20,14 @@ d3.select('#seleccion')
 
 });
 
+d3.select('#rangAsis')
+  .on('change', function() {
+    var limiteSupe = eval(d3.select(this).property('value'));
+
+    console.log( "limite: " + limiteSupe);
+
+});
+
 function leeDatos(){
 
   d3.csv(url).then(data => {  
@@ -43,7 +51,7 @@ function dibujaMapa(datosPar, sele){
   
     var format = d3.format(",.2s");
     var width = 500;
-    //var limiteSupe;
+    var limiteSupe;
     
     // if( sele == 1) limiteSupe = valueAsis;
     // else limiteSupe = valueDepo;
