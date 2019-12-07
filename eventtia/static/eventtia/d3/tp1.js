@@ -13,10 +13,16 @@ d3.select('#seleccion')
 
     console.log( "ejecutandose: " + seleccion);
 
-    if(seleccion == 1) 
+    if(seleccion == 1) {
       url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
-    else
+      d3.select('#parsAsis').style.display = '';
+      d3.select('#parsDepos').style.display = 'none';
+    }
+    else{
       url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
+      d3.select('#parsDepos').style.display = '';
+      d3.select('#parsAsis').style.display = 'none';
+    }
 
     leeDatos();
 
@@ -25,11 +31,15 @@ d3.select('#seleccion')
 d3.select('#rangAsis')
   .on('change', function() {
     limiteSupe = eval(d3.select(this).property('value'));
-
     console.log( "limite: " + limiteSupe);
-
     leeDatos();
+});
 
+d3.select('#rangDepos')
+  .on('change', function() {
+    limiteSupe = eval(d3.select(this).property('value'));
+    console.log( "limite: " + limiteSupe);
+    leeDatos();
 });
 
 function leeDatos(){
