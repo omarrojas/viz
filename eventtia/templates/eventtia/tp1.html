@@ -1,5 +1,5 @@
 {% extends "eventtia/template.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block tarea %}
 
 <section class="ftco-section ftco-bread">
@@ -32,7 +32,7 @@
 				<option value="2">Depósitos en $
 			</select>
 
-			<input id="rangAsis" type=range min="0" max="10000" step="1000">
+			Eventos Hasta: <input id="rangAsis" type=range min="0" max="10000" step="1000"> asistentes
 
 			<div id="chart"></div>
 
