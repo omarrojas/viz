@@ -20,16 +20,11 @@
           	</div>     
 		</div>
 		<div id="cont">
-		
-			<!--<svg id="viz" width="720" height="120">
-				<circle cx="40" cy="60" r="10"></circle>
-				<circle cx="80" cy="60" r="10"></circle>
-				<circle cx="120" cy="60" r="10"></circle>
-			</svg> -->
 			<table>
-				<tr><td colspan="2"><select id="seleccion">
-						<option value="1">Asistentes
-						<option value="2">Depósitos en $
+				<tr><td colspan="2">
+						<select id="seleccion" oninput="document.getElementById('parsAsis').style.display = 'none';">
+							<option value="1">Asistentes
+							<option value="2">Depósitos en $	
 						</select>
 					</td>
 				</tr>
