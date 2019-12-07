@@ -1,8 +1,7 @@
 
-let circle = d3.select("#viz").selectAll("circle");
-circle.style("fill", "steelblue");
-circle.attr("r", 10);
-
+//let circle = d3.select("#viz").selectAll("circle");
+//circle.style("fill", "steelblue");
+//circle.attr("r", 10);
 //url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
 
 d3.select('#seleccion')
@@ -32,7 +31,6 @@ d3.select('#seleccion')
  });
 
 });
-//seleccion = d3.select("#seleccion").property("value");
 
 function dibujaMapa(datosPar, sele){
   
@@ -71,7 +69,7 @@ function dibujaMapa(datosPar, sele){
     const treemapData = layout(hierarchy(treeData));
     const svg = d3.create("svg")
         .attr("viewBox", [0, 0, width, width*3/4])
-        .style("font", "3px sans-serif");
+        .style("font", "3px arial");
     
     const leaf = svg.selectAll("g.leaf")
       .data(treemapData.leaves().filter(d=> d.x1-d.x0>0.5)) 
