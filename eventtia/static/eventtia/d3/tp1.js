@@ -12,9 +12,9 @@ d3.select('#seleccion')
     console.log( "ejecutandose: " + seleccion);
 
     if(seleccion == 1) 
-      url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
-    else
       url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
+    else
+      url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
 
     leeDatos();
 
