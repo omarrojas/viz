@@ -49,7 +49,11 @@
 									}
 								},
 							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative"},
-							"color": {"field": "attendee_type_name", "type": "nominal"}    
+							"color": {"field": "attendee_type_name", "type": "nominal"},
+							"tooltip": [
+									{"field": "attendee_type_name", "type": "nominal"},
+									{"field": "demora15min", "type": "ordinal"}
+								]    
 						},
 						"selection": {
 												"attendee_type": {
