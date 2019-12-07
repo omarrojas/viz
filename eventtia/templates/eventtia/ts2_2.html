@@ -38,78 +38,34 @@
 				.then(function(data) {
 					console.log(data)
 					var yourVlSpec = {
-						"title": 'Delay time by weekday and country',
-						"data": {values: data},
-						"width": 800,
-						"height": 350,
+						"width": 300, "height": 200,
+						"data": {"url": "https://raw.githubusercontent.com/omarrojas/omarrojas.github.io/master/eventtia/SalidaTarea2.csv"},
 						"mark": "line",
+						"selection": {
+							"weekday": {
+							"type": "multi", "fields": ["nom_week_day"], "bind": "legend"
+							}
+						},
 						"encoding": {
 							"x": {"field": "demora15min", "type": "ordinal", "sort":["0", "15", "30", "45", "60", "75", "90", "105", "120", ">120"],
 								"axis": {
 									"title": "Delay (minutes)"
 									}
 								},
-							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative"},
-							"color": {"field": "nom_week_day", "type": "nominal"},
-							"tooltip": [
-									{"field": "nom_week_day", "type": "nominal"},
-									{"field": "demora15min", "type": "ordinal"},
-									{"field": "attendees", "type": "quantitative"}
-								]    
-
-						},
-							selection: {
-												"weekday": {
-													"type": "single",
-													"fields": ["nom_week_day"],
-													"bind": {"input": "select",       "name": "Weekday ",
-														"options": [
-															null,
-															"Mon",
-															"Tue",
-															"Wed",
-															"Thu",
-															"Fri",
-															"Sat",
-															"Sun"
-															]
-														}
-													},
-								"country": {
-									"type": "single",
-									"fields": ["country_name"],
-									"bind": {"input": "select",       "name": "Country ",
-										"options": [
-										"Argentina",
-										"Brazil",
-										"Chile",
-										"Colombia",
-										"Dominican Republic",
-										"Ecuador",
-										"France",
-										"Ivory Coast",
-										"Jordan",
-										"Mexico",
-										"Netherlands",
-										"Portugal",
-										"Spain",
-										"United Kingdom",
-										"United States",
-										"Uruguay",
-										"Vietnam"
-											]
-										}
-									}
-
-								},
-							transform: [{
-									filter: {field: "country_name", selection: "country"}
-								},
-								{
-									filter: {field: "nom_week_day", selection: "weekday"}
-								}               ]  
+						"y": {
+							"aggregate": "sum", "field": "attendees", "type": "quantitative",
+							"stack": "center", "axis": null
+							},
+							"color": {
+							"field":"nom_week_day", "type": "nominal",
+							"scale": {"scheme": "category10"}
+							},
+							"opacity": {
+							"condition": {"selection": "weekday", "value": 1},
+							"value": 0.2
+							}
 						}
-				;
+						};
 					vegaEmbed('#vis', yourVlSpec);
 				})
 				.catch(function(error){
