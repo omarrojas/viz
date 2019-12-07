@@ -213,10 +213,10 @@
                 //set domain for y axis
                 yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
 
-                var svg = d3.select("svg")
-
                 // Define the div for the tooltip
-                var div = svg.select(".tooltip"); 
+                var div = d3.select(".tooltip"); 
+
+                var svg = d3.select("svg")
 
                 var bar = svg.selectAll(".bar")
                     .remove()
