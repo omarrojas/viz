@@ -3,13 +3,18 @@ let circle = d3.select("#viz").selectAll("circle");
 circle.style("fill", "steelblue");
 circle.attr("r", 10);
 
-url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
+//url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
+
+seleccion = d3.select("#seleccion").property("value");
+
+if(seleccion == 1) 
+    url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
+else
+    url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
 
 d3.csv(url).then(data => {  
 
     console.log("datos cargados ", data);
-
-    seleccion = d3.select("#seleccion").property("value");
 
     console.log( "ejecutandose: " + seleccion);
 
