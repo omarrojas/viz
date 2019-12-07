@@ -3,6 +3,8 @@
 //circle.style("fill", "steelblue");
 //circle.attr("r", 10);
 url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
+limiteSupe = 30000000;
+
 leeDatos();
 
 d3.select('#seleccion')
@@ -22,7 +24,7 @@ d3.select('#seleccion')
 
 d3.select('#rangAsis')
   .on('change', function() {
-    var limiteSupe = eval(d3.select(this).property('value'));
+    limiteSupe = eval(d3.select(this).property('value'));
 
     console.log( "limite: " + limiteSupe);
 
