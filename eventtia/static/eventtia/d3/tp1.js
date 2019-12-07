@@ -2,7 +2,8 @@
 //let circle = d3.select("#viz").selectAll("circle");
 //circle.style("fill", "steelblue");
 //circle.attr("r", 10);
-//url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
+url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
+leeDatos();
 
 d3.select('#seleccion')
   .on('change', function() {
@@ -15,7 +16,13 @@ d3.select('#seleccion')
     else
       url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
 
-    d3.csv(url).then(data => {  
+    leeDatos();
+
+});
+
+function leeDatos(){
+
+  d3.csv(url).then(data => {  
 
     console.log("datos cargados ", data);
 
@@ -28,9 +35,9 @@ d3.select('#seleccion')
 
     console.log( "termina");
 
- });
+  });
 
-});
+}
 
 function dibujaMapa(datosPar, sele){
   
