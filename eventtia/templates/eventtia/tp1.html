@@ -22,7 +22,7 @@
 		<div id="cont">
 			<table>
 				<tr><td colspan="2">
-						<select id="seleccion" oninput="document.getElementById('parsAsis').style.display = 'none';">
+						<select id="seleccion" oninput=" (this.value == 1) ? document.getElementById('parsDepos').style.display = 'none' : document.getElementById('parsAsis').style.display = 'none';">
 							<option value="1">Asistentes
 							<option value="2">Depósitos en $	
 						</select>
