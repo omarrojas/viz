@@ -17,16 +17,6 @@ svg {
     shape-rendering: crispEdges;
 }
 
-.yaxis text {
-    font-size: 10px;
-    stroke: #000;
-  }
-
-.xaxis text {
-    font-size: 10px;
-    stroke: #000;
-  }
-
 div.tooltip {
     color: white;
     position: absolute;
