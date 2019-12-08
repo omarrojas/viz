@@ -30,7 +30,7 @@
 								document.getElementById('parsAsis').style.display = 'none';
 								document.getElementById('parsDepos').style.display = ''; 
 							}"> 
-							<option value="1" selected="selected">Asistentes
+							<option value="1">Asistentes
 							<option value="2">Depósitos en $	
 						</select>
 					</td>
@@ -38,7 +38,7 @@
 				<tr id="parsAsis"><td>Eventos hasta <a id="numAsis"></a>
 					<input id="rangAsis" type=range min="0" max="10000" step="1000" oninput="document.getElementById('numAsis').innerHTML = this.value;" ></td><td>asistentes</td>
 				</tr>
-				<tr id="parsDepos"><td>Eventos hasta <a id="numDepos"></a>
+				<tr id="parsDepos" style="display:none"><td>Eventos hasta <a id="numDepos"></a>
 					<input id="rangDepos" type=range  min="0" max="40000000" step="1000000" oninput="document.getElementById('numDepos').innerHTML = this.value;" ></td><td>$</td>
 				</tr>
 			</table>
