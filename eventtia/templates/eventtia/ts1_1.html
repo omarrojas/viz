@@ -34,7 +34,8 @@
 					  var dataJSON = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
 					  d3.csv(dataJSON)
 							.then(function(data) {
-								console.log(data)
+								datosf = data.filter(d => d.account_name === 'Organizador 51'); 
+								console.log(datosf);
 								var yourVlSpec = {
 									"title": 'Camparativo Asistentes por Evento',
 									"data": {values: data},
@@ -42,7 +43,7 @@
 									"height": 350,
 									"mark": "rect",
 									"encoding": {
-										"x": {"field": "total_deposits", "type": "ordinal", "sort": {"field": "range_order"},
+										"x": {"field": "total_deposits", "type": "quantitative", "sort": {"field": "range_order"},
 											"axis": {
 												"title": "Número de Asistentes"
 												}
