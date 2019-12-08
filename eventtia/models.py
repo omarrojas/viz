@@ -14,3 +14,12 @@ class ts31eventtype(models.Model):
     year = models.IntegerField();
     month = models.TextField();
     
+class ts32eventgeo(models.Model):
+    type=models.TextField();
+    year = models.IntegerField();
+    month = models.TextField();
+    latitude = models.FloatField();
+    longitude = models.FloatField();
+    event_id=models.IntegerField();
+    
+    

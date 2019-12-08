@@ -148,8 +148,41 @@ def ts3_1(request):
         formset = ts31Form()
         return render(request, 'eventtia/ts3_1.html', {'formset': formset});
 
+from .models import ts32eventgeo
+from .forms import ts32Form
 def ts3_2(request):
-    return render(request,'eventtia/ts3_2.html',{});
+    if request.method == 'POST':
+        
+        form = ts32Form(request.POST);
+        
+        if form.is_valid():            
+            
+            year =  form.cleaned_data['year']
+            
+            print('Año a buscar', year);            
+            
+            countEvent = list(ts32eventgeo.objects.filter(year=year).values('event_id','type','latitude','longitude').annotate(count=Count('type')));                
+                           
+                        
+            nodelist=[];
+            for i in countEvent:        
+                object = {
+                    "event_id":i['event_id'],
+                    "amountAttend":i['count'],
+                    "latitude":i['latitude'],
+                    "longitude":i['longitude'],                    
+                    }
+                nodelist.append(object);
+            
+            countEventList = {"children":nodelist};
+            print('ts3.2',countEventList);
+            
+            return render(request,'eventtia/ts3_2.html',{'countEventList':countEventList,"buscado":year,'formset': form});
+        else:
+            print(form)
+    else:
+        formset = ts32Form()
+        return render(request, 'eventtia/ts3_2.html', {'formset': formset});
 
 # Backend endpoints
 def tp2_backend(request):
