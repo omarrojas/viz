@@ -180,7 +180,7 @@ function dibujaMapa(datosPar, sele){
       .attr("fill-opacity", 0.3)
       .style("stroke", "white")
       .style("stroke-width", d => d.depth === 1 ? 1: 0.5)
-      .text( d => d.depth === 1 ? d => d.data.name : "");
+      .text( d => d.depth === 1 ? d.data.name : "");
     
     
   
