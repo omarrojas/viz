@@ -1,6 +1,10 @@
 {% extends "eventtia/template.html" %}
 {% load static %}
 {% block tarea %}
+<script src="https://cdn.jsdelivr.net/npm/vega@5.7.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.0-beta.10"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@5.1.3"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 
 <section class="ftco-section ftco-bread">
 	<div class="container">
@@ -21,9 +25,43 @@
           	</div>     
 		</div>
 
-		<div id="chart">
+		<!--<div id="chart">
 				<img src="{% static 'eventtia/images/ts_1_1.png' %}">
-		</div>
+		</div>-->
+		<div id="chart"></div>
+
+		<script type="text/javascript">
+					  var dataJSON = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
+					  d3.json(dataJSON)
+							.then(function(data) {
+								console.log(data)
+								var yourVlSpec = {
+									"title": 'Camparativo Asistentes por Evento',
+									"data": {values: data},
+									"width": 800,
+									"height": 350,
+									"mark": "rect",
+									"encoding": {
+										"x": {"field": "total_deposits", "type": "ordinal", "sort": {"field": "range_order"},
+											"axis": {
+												"title": "Número de Asistentes"
+												}
+											},
+										"y": {"field": "event_name", "type": "nominal", "title": "Evento"},
+										"tooltip": [
+												{"field": "account_name", "type": "nominal", "title": "Organizador"}, 
+												{"field": "total_deposits", "type": "quantitative", "title": "Asistentes"} 
+											]   
+									}
+								}
+							;
+								vegaEmbed('#chart', yourVlSpec);
+							})
+							.catch(function(error){
+								// handle error   
+							})
+				
+					</script>
 
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
 		<script type="text/javascript" src="{% static 'eventtia/d3/ts1_1.js' %}" > </script>
