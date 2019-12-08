@@ -50,7 +50,7 @@
 //									"title": "Delay (minutes)"
 									}
 								},
-							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative"},
+							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative", "title": "Promedio de asistentes"},
 							"color": {"field": "attendee_type_name", "type": "nominal"},
 							"tooltip": [
 									{"field": "attendee_type_name", "type": "nominal"},
@@ -62,7 +62,8 @@
 												"attendee_type": {
 													"type": "single",
 													"fields": ["attendee_type_name"],
-													"bind": {"input": "select",       "name": "Attendee Type ",
+													"bind": {"input": "select",       "name": "Tipo de asistente ",
+//													"bind": {"input": "select",       "name": "Attendee Type ",
 														"options": [
 															null,
 															"Asistant",
