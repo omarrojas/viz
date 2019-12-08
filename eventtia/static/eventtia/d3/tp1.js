@@ -13,10 +13,16 @@ d3.select('#seleccion')
 
     console.log( "ejecutandose: " + seleccion);
 
-    if(seleccion == 1) 
+    if(seleccion == 1) {
       url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
-    else
+      d3.select('#parsAsis').style.display = '';
+      d3.select('#parsDepos').style.display = 'none';
+    }
+    else{
       url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrDepositos.csv";
+      d3.select('#parsDepos').style.display = '';
+      d3.select('#parsAsis').style.display = 'none';
+    }
 
     leeDatos();
 
@@ -25,14 +31,15 @@ d3.select('#seleccion')
 d3.select('#rangAsis')
   .on('change', function() {
     limiteSupe = eval(d3.select(this).property('value'));
-
     console.log( "limite: " + limiteSupe);
-
-    d3.select('#numEventos').attr('text', limiteSupe);
-    d3.select('#numEventos').attr('value', limiteSupe);
-
     leeDatos();
+});
 
+d3.select('#rangDepos')
+  .on('change', function() {
+    limiteSupe = eval(d3.select(this).property('value'));
+    console.log( "limite: " + limiteSupe);
+    leeDatos();
 });
 
 function leeDatos(){
@@ -90,7 +97,7 @@ function dibujaMapa(datosPar, sele){
     const treemapData = layout(hierarchy(treeData));
     const svg = d3.create("svg")
         .attr("viewBox", [0, 0, width, width*3/4])
-        .style("font", "3px arial");
+        .style("font", "5px arial");
     
     const leaf = svg.selectAll("g.leaf")
       .data(treemapData.leaves().filter(d=> d.x1-d.x0>0.5)) 
@@ -173,7 +180,7 @@ function dibujaMapa(datosPar, sele){
       .attr("fill-opacity", 0.3)
       .style("stroke", "white")
       .style("stroke-width", d => d.depth === 1 ? 1: 0.5)
-      .text(d => d.data.name);
+      .text( d => d.depth === 1 ? d.data.name : "");
     
     
   

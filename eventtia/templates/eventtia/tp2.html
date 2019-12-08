@@ -29,7 +29,7 @@
     	</div-->
 
 		<div id="vis"></div>
-        Countryname: <select id="countryname" name="countryname">
+        Pais: <select id="countryname" name="countryname">
             <option value="Argentina">Argentina</option>
             <option value="Brazil">Brazil</option>
             <option value="Chile">Chile</option>
@@ -48,7 +48,7 @@
             <option value="Uruguay">Uruguay</option>
             <option value="Vietnam">Vietnam</option>
         </select> 
-        Weekday: <select id="weekday" name="weekday">
+        Día de la semana: <select id="weekday" name="weekday">
             <option value="All">All</option>
             <option value="Sun">Sunday</option>
             <option value="Mon">Monday</option>
@@ -156,14 +156,13 @@
                         .call(d3.axisBottom(xScale));
 
                     svg.append("g")
-                        .attr("class", "y axis")
+                        .attr("class", "yaxis")
                         .call(d3.axisLeft(yhist))
                         .append("text")
                         .attr("transform", "rotate(-90)")
                         .attr("y", 6)
                         .attr("dy", ".71em")
-                        .style("text-anchor", "end")
-                        .text("% attendees acum");
+                        .style("text-anchor", "end");
 
                     // Draw labels
                     // Title
@@ -172,7 +171,19 @@
                         .attr('x', w / 2 + m.left / 2)
                         .attr('y', -(m.top / 2))
                         .attr('text-anchor', 'middle')
-                        .text('% attendees arrived between on time and delay minutes');
+                        .attr('font-size', '12')
+                        .text('% asistentes que llegan entre puntual y demora en minutos');
+//                        .text('% attendees arrived between on time and delay minutes');
+
+                    // X
+                    svg.append("g")
+                        .append('text')
+                        .attr('x', w / 2 + m.left / 2)
+                        .attr('y', h + m.top - (m.bottom / 2))
+                        .attr('text-anchor', 'middle')
+                        .attr('font-size', '12')
+                        .text("Demora en minutos");
+//                        .text("% delay on minutes");
 
                     // Y
                     svg.append("g")
@@ -181,7 +192,9 @@
                         .attr('y', - (m.left / 2))
                         .attr('transform', 'rotate(-90)')
                         .attr('text-anchor', 'middle')
-                        .text('% attendees acum');
+                        .attr('font-size', '12')
+                        .text("% asistentes acumulado");
+//                        .text("% attendees acum");
 
 				})
 
@@ -203,7 +216,6 @@
                     data[i]['CumulativePercentage'] = (data[i]['CumulativeAttendees'] / totalAttendees) * 100;
                     data[i]['CumulativePercentage'] = parseFloat(data[i]['CumulativePercentage'].toFixed(2));
                 }
-                console.log(data.length)
 
                 dataset = data;
 
@@ -214,9 +226,12 @@
                 yhist.domain([0, d3.max(data, function(d) { return d.CumulativePercentage; })]);
 
                 // Define the div for the tooltip
-                var div = svg.select(".tooltip"); 
+                var div = d3.select(".tooltip"); 
+
+                console.log(div.node())
 
                 var svg = d3.select("svg")
+
                 var bar = svg.selectAll(".bar")
                     .remove()
                     .exit()
@@ -252,19 +267,11 @@
                                 .style('opacity', 0);
                             });    
 
-/*
-                svg = d3.select("svg")
-                xx = svg.select(".x axis")
-                    .attr("transform", "translate(0," + h + ")")
-                    .call(d3.axisBottom(xScale));
-*/
                 var t = d3.transition()
                     .duration(500);
                 svg = d3.select("svg");
 
                 xaxis = svg.select(".xaxis"); 
-                console.log("xaxis:");
-                console.log(xaxis.node());
 
                 svg.select(".xaxis")
                     .transition(t)

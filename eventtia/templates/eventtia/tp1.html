@@ -20,21 +20,27 @@
           	</div>     
 		</div>
 		<div id="cont">
-		
-			<!--<svg id="viz" width="720" height="120">
-				<circle cx="40" cy="60" r="10"></circle>
-				<circle cx="80" cy="60" r="10"></circle>
-				<circle cx="120" cy="60" r="10"></circle>
-			</svg> -->
 			<table>
-				<tr><td colspan="2"><select id="seleccion">
-						<option value="1">Asistentes
-						<option value="2">Depósitos en $
+				<tr><td colspan="2">
+						<select id="seleccion" oninput=" if(this.value == 1) {
+								 document.getElementById('parsDepos').style.display = 'none';
+								 document.getElementById('parsAsis').style.display = '';
+							}
+							 else {
+								document.getElementById('parsAsis').style.display = 'none';
+								document.getElementById('parsDepos').style.display = ''; 
+							}"> 
+							<option value="1">Asistentes
+							<option value="2">Depósitos en $	
 						</select>
 					</td>
 				</tr>
-				<tr><td>Eventos hasta <a id="numEventos">0</a>
-					<input id="rangAsis" type=range min="0" max="10000" step="1000" oninput="document.getElementById('numEventos').innerHTML = this.value;" ></td><td>asistentes</td> </tr>
+				<tr id="parsAsis"><td>Eventos hasta <a id="numAsis"></a>
+					<input id="rangAsis" type=range min="0" max="10000" step="1000" oninput="document.getElementById('numAsis').innerHTML = this.value;" ></td><td>asistentes</td>
+				</tr>
+				<tr id="parsDepos" style="display:none"><td>Eventos hasta <a id="numDepos"></a>
+					<input id="rangDepos" type=range  min="0" max="40000000" step="1000000" oninput="document.getElementById('numDepos').innerHTML = this.value;" ></td><td>$</td>
+				</tr>
 			</table>
 
 			<div id="chart"></div>

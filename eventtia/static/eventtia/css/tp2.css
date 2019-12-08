@@ -5,7 +5,13 @@ svg {
     fill: steelblue;
     shape-rendering: crispEdges;
 }
-.axis path, .axis line {
+.xaxis path, .xaxis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.yaxis path, .yaxis line {
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
