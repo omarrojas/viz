@@ -38,23 +38,26 @@
 				.then(function(data) {
 					console.log(data)
 					var yourVlSpec = {
-						"title": 'Delay time by weekday and country',
+						"title": 'Demora por día de la semana y país',
+//						"title": 'Delay time by weekday and country',
 						"data": {values: data},
 						"width": 800,
 						"height": 350,
 						"mark": "line",
 						"encoding": {
-							"x": {"field": "demora15min", "type": "ordinal", "sort":["0", "15", "30", "45", "60", "75", "90", "105", "120", ">120"],
+							"x": {"field": "demora15min", "type": "ordinal", "sort": {"field": "range_order"},
 								"axis": {
-									"title": "Delay (minutes)"
+									"title": "Demora (minutes)"
+//									"title": "Delay (minutes)"
 									}
 								},
-							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative"},
-							"color": {"field": "nom_week_day", "type": "nominal"},
+							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative", "title": "Promedio de asistentes"},
+							"color": {"field": "nom_week_day", "type": "nominal", "title": "Día de la semana"},
 							"tooltip": [
-									{"field": "nom_week_day", "type": "nominal"},
-									{"field": "demora15min", "type": "ordinal"},
-									{"field": "attendees", "type": "quantitative"}
+									{"field": "country_name", "type": "nominal", "title": "País"}, 
+									{"field": "nom_week_day", "type": "nominal", "title": "Día de la semana"}, 
+									{"field": "demora15min", "type": "ordinal", "title": "Demora en minutos"},
+									{"field": "attendees", "type": "quantitative", "title": "Promedio de asistentes"}
 								]    
 
 						},
@@ -62,7 +65,8 @@
 												"weekday": {
 													"type": "single",
 													"fields": ["nom_week_day"],
-													"bind": {"input": "select",       "name": "Weekday ",
+													"bind": {"input": "select",       "name": "Día de la semana ",
+//													"bind": {"input": "select",       "name": "Weekday ",
 														"options": [
 															null,
 															"Mon",
@@ -78,8 +82,10 @@
 								"country": {
 									"type": "single",
 									"fields": ["country_name"],
-									"bind": {"input": "select",       "name": "Country ",
+									"bind": {"input": "select",       "name": "País ",
+//									"bind": {"input": "select",       "name": "Country ",
 										"options": [
+										null,
 										"Argentina",
 										"Brazil",
 										"Chile",

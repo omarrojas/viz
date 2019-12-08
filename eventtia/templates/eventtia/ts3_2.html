@@ -1,7 +1,15 @@
 {% extends "eventtia/template.html" %}
 {% load static %}
 {% block tarea %}
+<style>
+path.active {
+  fill: pink;
+}
+circle.active {
+  fill: black;
+}
 
+</style>
 
 <section class="ftco-section ftco-bread">
 	<div class="container">
@@ -21,6 +29,23 @@
        
           	</div>     
 		</div>
+		
+		<div class="row">
+			<div class="col-sm-12" style="border: solid 1px #000">		
+				 <form id="formulario" method="post" action="ts3_2"> 
+				  {% csrf_token %}
+				  {{ formset }}
+				  <button type="submit" class="btn btn-primary">Vizulaizar</button>				  
+				 </form> 
+			</div>		
+					
+		</div>		
+		
+		<div class="row"> 
+    	  	<div class="media-body p-2 mt-2">
+            	<h4 class="heading mb-3">Ubicación de Eventos  {% if buscado is not null%} , año {{buscado}} {%endif%}</h4>
+          	</div> 
+		</div>
 	
 		<div class="row"> 			
 			<div id="contenedor"  style="border: solid 1px #000">
@@ -30,32 +55,58 @@
 		</div>
 		
 	</div>
+	
+	<div class="container">
+	    <div class="row">   
+	    	<h4 class="heading mb-3">Vizualización</h4>
+	    		<p><strong>Parametros: </strong>Se deben seleccionar el año y opcionalmete el <strong>email</strong> de un participante. Luego presionar el botón "Vizualizar" </p>
+		        <p><strong>Descripción: </strong>Si se diligenció un <strong>email</strong> se muestran los datos de ese asistente. Si no se muestran los datos de asistencia en general.</br>
+			    Las área de cada circulo, son proporcionales por asistencias</br>
+	    	            Los diferentes colores, son los diferentes tipos de eventos.
+	    		</p>
+			<p><strong>Interactividad:</strong> Al colocar el puntero del mouse, sobre un circulo se muestra un tooltip con el tipo del evento y la cantidad de asistencias. </p>
+			<p><strong>Nota: </strong>Los datos están anonimizados para proteger los datos de la empresa.</p>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">    
+			<h4 class="heading mb-3">Preparación de datos</h4>		
+			 <iframe src="{% static 'eventtia/html/ts32_preparacionDatos.html' %}" name="iframe_a" height="100%" width="100%"></iframe>
+			
+		</div>
+	</div>
 </section>
 	    
 <script type="text/javascript" src="{% static 'eventtia/d3/d3.js' %}"> </script>
-												  
+{%if countEventList is not null %}												  
 <script type="text/javascript" > 
 
 		//https://victoriaericob.carto.com/tables/departamentos_colombia/public
 		console.log("inicia VIZ TS3.2");
 	
+
 var promiseWrapper = (d) => new Promise(resolve => d3.json(d, (p) => resolve(p)))
 	
-Promise.all([ 
+/*Promise.all([ 
 d3.json("{% static 'eventtia/d3/departamentos_colombia.geo.json' %}")
 ,d3.json("{% static 'eventtia/d3/ts3_2.json' %}") ])
 .then(resolve => {
         showData(resolve[0],resolve[1]);
+     });*/
+     
+Promise.all([ d3.json("{% static 'eventtia/d3/departamentos_colombia.geo.json' %}") ])
+.then(resolve => {
+        showData(resolve[0]);
      });
 
-function showData(datasources0,datasources1) {    
+function showData(datasources0) {    
 
         console.log("showData");
         let bodyHeight = 700
         let bodyWidth = 900
 
         let mapInfo = datasources0;
-        let dataOrginal = datasources1;    
+        let dataOrginal = {{countEventList | safe}};    
 
         console.log("dataOrginal",dataOrginal);
 		console.log("mapInfo",mapInfo);
@@ -114,7 +165,7 @@ function showData(datasources0,datasources1) {
  }
 
 </script>	
-												  
+{%endif%}												  
 												  
 
 {% endblock tarea %}

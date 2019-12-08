@@ -16,8 +16,8 @@ def ts2_2_data(con,  countryname, weekday):
         cursorObj.execute("""
                 SELECT country_name, nom_week_day, demora15min, range_order, sum(attendees) attendees
                     FROM SalidaTarea2
-                    GROUP BY country_name, nom_week_day, demora15min, range_order 
-                    ORDER BY country_name, nom_week_day, range_order
+                    GROUP BY range_order, country_name, nom_week_day, demora15min
+                    ORDER BY range_order, country_name, nom_week_day
             """, )
     else:
         cursorObj.execute("""
@@ -25,8 +25,8 @@ def ts2_2_data(con,  countryname, weekday):
                     FROM SalidaTarea2
                     WHERE country_name = ? 
                         AND nom_week_day = ?
-                    GROUP BY country_name, nom_week_day, demora15min, range_order 
-                    ORDER BY country_name, nom_week_day, range_order
+                    GROUP BY range_order, country_name, nom_week_day, demora15min
+                    ORDER BY range_order, country_name, nom_week_day
         """, (countryname, weekday,))
 
     data = cursorObj.fetchall()

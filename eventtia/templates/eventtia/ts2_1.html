@@ -37,7 +37,8 @@
 				.then(function(data) {
 					console.log(data)
 					var yourVlSpec = {
-						"title": 'Delay time by attendee type',
+						"title": 'Demora por tipo de asistente',
+//						"title": 'Delay time by attendee type',
 						"data": {values: data},
 						"width": 800,
 						"height": 350,
@@ -45,22 +46,24 @@
 						"encoding": {
 							"x": {"field": "demora15min", "type": "ordinal", "sort": {"field": "range_order"},
 								"axis": {
-									"title": "Delay (minutes)"
+									"title": "Demora (minutos)"
+//									"title": "Delay (minutes)"
 									}
 								},
-							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative"},
-							"color": {"field": "attendee_type_name", "type": "nominal"},
+							"y": {"field": "attendees", "aggregate": "mean", "type": "quantitative", "title": "Promedio de asistentes"},
+							"color": {"field": "attendee_type_name", "type": "nominal", "title": "Tipo de asistente"},
 							"tooltip": [
-									{"field": "attendee_type_name", "type": "nominal"},
-									{"field": "demora15min", "type": "ordinal"},
-									{"field": "attendees", "type": "quantitative"}
+									{"field": "attendee_type_name", "type": "nominal", "title": "Tipo de asistente"},
+									{"field": "demora15min", "type": "ordinal", "title": "Demora en minutos"},
+									{"field": "attendees", "type": "quantitative", "title": "Promedio de asistentes"}
 								]    
 						},
 						"selection": {
 												"attendee_type": {
 													"type": "single",
 													"fields": ["attendee_type_name"],
-													"bind": {"input": "select",       "name": "Attendee Type ",
+													"bind": {"input": "select",       "name": "Tipo de asistente ",
+//													"bind": {"input": "select",       "name": "Attendee Type ",
 														"options": [
 															null,
 															"Asistant",
