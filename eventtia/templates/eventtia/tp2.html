@@ -179,7 +179,7 @@
                     svg.append("g")
                         .append('text')
                         .attr('x', w / 2 + m.left / 2)
-                        .attr('y', h - (m.bottom / 2))
+                        .attr('y', h + m.top - (m.bottom / 2))
                         .attr('text-anchor', 'middle')
                         .attr('font-size', '12')
                         .text("Demora en minutos");
