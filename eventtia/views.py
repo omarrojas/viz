@@ -167,6 +167,7 @@ def ts3_2(request):
             nodelist=[];
             for i in countEvent:        
                 object = {
+                    "type":i['type'],
                     "event_id":i['event_id'],
                     "amountAttend":i['count'],
                     "latitude":i['latitude'],

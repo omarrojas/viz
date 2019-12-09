@@ -8,7 +8,14 @@ path.active {
 circle.active {
   fill: black;
 }
-
+pre {
+  width: 100%;
+  height: 300px;
+  margin: 6px 12px;
+  tab-size: 40;
+  font-size: 10px;
+  overflow: auto;
+}
 </style>
 
 <section class="ftco-section ftco-bread">
@@ -25,7 +32,7 @@ circle.active {
   	<div class="container">
     	<div class="row">    
     	  	<div class="media-body p-2 mt-2">
-            	<h4 class="heading mb-3">Determine una zona geográfica donde más asisten participantes a eventos</h4>
+            	<h4 class="heading mb-3">Determine una zona geográfica donde más se realizan eventos, en un año dado</h4>
        
           	</div>     
 		</div>
@@ -35,7 +42,7 @@ circle.active {
 				 <form id="formulario" method="post" action="ts3_2"> 
 				  {% csrf_token %}
 				  {{ formset }}
-				  <button type="submit" class="btn btn-primary">Vizulaizar</button>				  
+				  <button type="submit" class="btn btn-primary">Visulaizar</button>				  
 				 </form> 
 			</div>		
 					
@@ -53,6 +60,12 @@ circle.active {
     		</div>
 				  		
 		</div>
+		
+		 <div class="row">
+	        <h4 id="consola" style="color: black">
+	            "Seleccione un area en el mapa."
+	        </h4>
+    	</div>
 		
 	</div>
 	
@@ -96,57 +109,74 @@ d3.json("{% static 'eventtia/d3/departamentos_colombia.geo.json' %}")
      
 Promise.all([ d3.json("{% static 'eventtia/d3/departamentos_colombia.geo.json' %}") ])
 .then(resolve => {
-        showData(resolve[0]);
+        showMap(resolve[0]);
      });
 
-function showData(datasources0) {    
+function showMap(datasources0) {    
 
         console.log("showData");
-        let bodyHeight = 700
+        let bodyHeight = 750
         let bodyWidth = 900
 
         let mapInfo = datasources0;
-        let dataOrginal = {{countEventList | safe}};    
+        let dataGraficar = {{countEventList | safe}};    
 
-        console.log("dataOrginal",dataOrginal);
-		console.log("mapInfo",mapInfo);
-		console.log("mapInfo",mapInfo.features);
-
-		let dataGraficar = dataOrginal;
+        //console.log("dataGraficar",dataGraficar);
+		//console.log("mapInfo",mapInfo.features);      
 
         var projecion = d3.geoMercator()
-                .scale(2000)
+                .scale(2400)
 
         var geoPath = d3.geoPath()
             .projection(projecion);   
 
-	var body = d3.select("#contenedor").select("#bodyVIZ");	
+		var body = d3.select("#contenedor").select("#bodyVIZ");	
 		
-	var svg =  body.append("svg");
-
+		var text = body
+		.append("text")
+		.text("Participantes")
+		.style("text-anchor","start")
+		.style("font-size","14px")
+		.style("font-weight","bold")
+		
+		var svg =  body.append("svg");
+	
+		var svgSolo =  svg;
+		    		
         svg = svg
 		.attr("width",bodyWidth)
-		.attr("height",bodyHeight).append("g").attr("transform","translate(2400,200)");
+		.attr("height",bodyHeight).append("g").attr("transform","translate(3000,300)");
 		
-	svg.selectAll("path")
-	    .data(mapInfo.features)
-            .enter()
-	    .append("path")
-            .attr("d", geoPath)
-            .attr("stroke", "#333")
-            .attr("fill", "#ccc")
-	    .on("mouseover",function(d) {					
-			d3.select(this)
-			.classed("active",true)
-  	     })
-  	     .on("mouseout",function(d){  	
-			   d3.select(this)
-      			   .classed("active",false)
-    	     });
+		
+		
+		svg.selectAll("path")
+		    .data(mapInfo.features)
+	        .enter()
+		    .append("path")
+	        .attr("d", geoPath)
+	        .attr("stroke", "#333")
+	        .attr("fill", "#ccc")            
+		    .on("mouseover",function(d) {					
+				d3.select(this)
+				.classed("active",true)			
+				//console.log(d.properties.departamento)
+				text.text(d.properties.departamento)
+	  	     })
+	  	     .on("mouseout",function(d){  	
+				   d3.select(this)
+	      			   .classed("active",false)
+	    	     })
+	    	     
+	         .append("title")
+	            .text(function(d) {
+	                //console.log( d.departamento);
+	                return  d.properties.departamento;
+	         });
 
-		//////
-	svg.selectAll("circle")
-            .data(dataGraficar)
+
+
+		svg.selectAll("circle")
+            .data(dataGraficar.children)
             .enter()
             .append("circle")
             .attr("r", 5)
@@ -154,14 +184,99 @@ function showData(datasources0) {
             .style("opacity", 0.5)
             .attr("cx", d => projecion([+d.longitude, +d.latitude])[0])
             .attr("cy", d => projecion([+d.longitude, +d.latitude])[1])
-	    .on("mouseover",function(d) {
-   			d3.select(this)
-      			.classed("active",true)
-  	     })
-  	     .on("mouseout",function(d){
-    			d3.select(this)
-      			.classed("active",false)
-    	     }); 			
+		    .append("title")
+	            .text(function(d) {
+	                //console.log( d.departamento);
+	                return  "Evento "+d.event_id+", tipo:"+d.type ;
+	            })
+	    	.on("mouseover",function(d) {
+					d3.select(this)
+			  			.classed("active",true)
+			     })
+  	     	.on("mouseout",function(d){
+					d3.select(this)
+		  			.classed("active",false)
+			     }); 		
+    	         	     
+///////////////////////////
+    	    
+    	  	let brush = d3.brush();
+    
+      		brush.on("brush", function (a,b) {
+            let coords = d3.event.selection
+            
+            svg.selectAll("circle")
+               .style("fill", function(d) {
+                    let cx = d3.select(this).attr("cx");
+                    let cy = d3.select(this).attr("cy");                    
+                    let selected = isSelected(coords, cx, cy, 3000,300)
+                    if(selected){                         
+                      
+                      //console.log(d);
+                      mostrarTabla(d);                      
+                    }
+                    return selected ? "red" : "blue"
+                })            
+        	});
+        	
+        	svgSolo.attr("class", "brush")
+            .call(brush).selectAll('rect')  ;              
+    		
+ }
+ 
+ var tabla = new Array();
+  
+ 
+ 
+ function mostrarTabla(d){
+ 
+      //console.log("2=",d);
+      
+	  let agregar = true;
+	  
+	  let object={
+	    event_id:d.event_id,
+	    type:d.type,
+		amountAttend:1};
+		
+	  tabla.forEach(function(e){
+	      //console.log('t',e);
+	     if(e.event_id==d.event_id){
+	        agregar=false;
+	     }
+	  });
+	  if(agregar){
+	    tabla.push(object);	
+	  }
+    
+        
+    /*let out = d3.select(output)  
+    out.text(d3.tsvFormat(tabla.slice(0,60)));
+    */
+    //console.log(tabla);
+    
+    let sumTotal = tabla.reduce(function(sum, d) {
+        return sum + d.amountAttend;
+    }, 0);     
+    
+    d3.select("#consola").text("Total Eventos seleccionados = "+sumTotal);
+ 
+  }
+ 
+ function isSelected(coords, x, y, xt, yt) {
+ 		xc=(+x + +xt);
+        yc=(+y + +yt);
+ 	
+        let x0 = coords[0][0],
+            x1 = coords[1][0],
+            y0 = coords[0][1],
+            y1 = coords[1][1];
+        
+        return x0 <= xc && xc <= x1 && y0 <= yc && yc <= y1;
+    }
+ 
+ function showData(){
+ 
  }
 
 </script>	
