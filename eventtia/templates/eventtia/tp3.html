@@ -63,7 +63,7 @@
 				  	{% csrf_token %}
 				  	{{ formset }}
 					<label for="rangeVal"> Participantes que han asistido a mas de :</label>
-				    <input type ="range" max="15" min="2"
+				    <input type ="range" max="40" min="2"
 				        oninput="document.getElementById('rangeValLabel').innerHTML = this.value;"
 				        step="1" name="rangeVal" id="rangeVal" value="{%if amountEven is not null%}{{amountEven}}{%else%}2{%endif%}">
 				    </input>
