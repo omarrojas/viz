@@ -24,7 +24,7 @@ La plataforma Eventtia cuenta con algunas herramientas de visualización actualm
 
 - Aplicación Web: https://viz201920.herokuapp.com
 - Código de la aplicacion: https://github.com/jairocollante/viz 
-- Video explicativo 
+- Video explicativo: https://youtu.be/sZ4mBSmv_Cs
 - Diapositivas: https://docs.google.com/presentation/d/1V1F-jpUv_ythtGFAjFgjNPUDlFtOgOJhmzN0I8P3C4w/edit?usp=sharing 
 
 ## Autores
