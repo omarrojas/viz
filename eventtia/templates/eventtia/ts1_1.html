@@ -49,17 +49,20 @@
 		<script type="text/javascript">
 
 			var url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
+			var seleccion = "18";
+			dibujaChart();
 				
 			d3.select('#seleccion')
   .				on('change', function() {
-    			var seleccion = eval(d3.select(this).property('value'));
+    			seleccion = eval(d3.select(this).property('value'));
 				console.log( "ejecutandose: " + seleccion );
-				sel = "Organizador "+seleccion; 
-				console.log( "ejecutandose: " + sel );
-				
+				dibujaChart();
+			});
+			
+			function dibujaChart(){
 				d3.csv(url)
 					.then(function(data) {
-						datosf = data.filter(d => d.account_name === sel ); 
+						datosf = data.filter(d => d.account_name === "Organizador "+seleccion ); 
 						console.log(datosf);
 						var yourVlSpec = {
 							"title": 'Camparativo Asistentes por Evento',
@@ -87,7 +90,7 @@
 					.catch(function(error){
 						// handle error   
 					})
-				});	
+			}
 		</script>
 
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
