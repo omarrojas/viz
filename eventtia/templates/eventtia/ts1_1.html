@@ -28,42 +28,67 @@
 		<!--<div id="chart">
 				<img src="{% static 'eventtia/images/ts_1_1.png' %}">
 		</div>-->
+
+		<table>
+			<tr><td>
+					<select id="seleccion"> 
+						<option value="18">Organizador 18
+						<option value="24">Organizador 24
+						<option value="26">Organizador 26
+						<option value="36">Organizador 36
+						<option value="45">Organizador 45
+						<option value="51">Organizador 51
+						<option value="56">Organizador 56
+					</select>
+				</td>
+			</tr>
+		</table>
+
 		<div id="chart"></div>
 
 		<script type="text/javascript">
-					  var dataJSON = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
-					  d3.csv(dataJSON)
-							.then(function(data) {
-								datosf = data.filter(d => d.account_name === 'Organizador 24'); 
-								console.log(datosf);
-								var yourVlSpec = {
-									"title": 'Camparativo Asistentes por Evento',
-									"data": {values: datosf},
-									"width": 800,
-									"height": 350,
-									"mark": "rect",
-									"encoding": {
-										"y": {"field": "total_deposits", "type": "quantitative", "sort": {"field": "range_order"},
-											"axis": {
-												"title": "Número de Asistentes"
-												}
-											},
-										"x": {"field": "event_name", "type": "nominal", "title": "Evento"},
-										"tooltip": [
-												{"field": "account_name", "type": "nominal", "title": "Organizador"}, 
-												{"field": "total_deposits", "type": "quantitative", "title": "Asistentes"},
-												{"field": "event_name", "type": "quantitative", "title": "Asistentes"} 
-											]   
-									}
-								}
-							;
-								vegaEmbed('#chart', yourVlSpec);
-							})
-							.catch(function(error){
-								// handle error   
-							})
+
+			var url = "https://raw.githubusercontent.com/mrendonm/visualanalytics/master/AgrAsitentes.csv";
 				
-					</script>
+			d3.select('#seleccion')
+  .				on('change', function() {
+    			var seleccion = eval(d3.select(this).property('value'));
+				console.log( "ejecutandose: " + seleccion );
+				sel = "Organizador "+seleccion; 
+				console.log( "ejecutandose: " + sel );
+				
+				d3.csv(url)
+					.then(function(data) {
+						datosf = data.filter(d => d.account_name === sel ); 
+						console.log(datosf);
+						var yourVlSpec = {
+							"title": 'Camparativo Asistentes por Evento',
+							"data": {values: datosf},
+							"width": 800,
+							"height": 350,
+							"mark": "rect",
+							"encoding": {
+								"y": {"field": "total_deposits", "type": "quantitative", "sort": {"field": "range_order"},
+									"axis": {
+										"title": "Número de Asistentes"
+										}
+									},
+								"x": {"field": "event_name", "type": "nominal", "title": "Evento"},
+								"tooltip": [
+										{"field": "account_name", "type": "nominal", "title": "Organizador"}, 
+										{"field": "total_deposits", "type": "quantitative", "title": "Asistentes"},
+										{"field": "event_name", "type": "quantitative", "title": "Asistentes"} 
+									]   
+							}
+						}
+					;
+						vegaEmbed('#chart', yourVlSpec);
+					})
+					.catch(function(error){
+						// handle error   
+					})
+				});	
+		</script>
 
 		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
 		<script type="text/javascript" src="{% static 'eventtia/d3/ts1_1.js' %}" > </script>
