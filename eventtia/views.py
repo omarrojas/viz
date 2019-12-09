@@ -141,7 +141,7 @@ def ts3_1(request):
             countTypeList = {"children":nodelist};
             #print('ts3.1',countTypeList);
             
-            return render(request,'eventtia/ts3_1.html',{'countTypelist':countTypeList,"buscado":month,'formset': form});
+            return render(request,'eventtia/ts3_1.html',{'countTypelist':countTypeList,"buscado":month,"email":email,'formset': form});
         else:
             print(form)
     else:
