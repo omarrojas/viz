@@ -26,3 +26,8 @@ La plataforma Eventtia cuenta con algunas herramientas de visualización actualm
 - Código de la aplicacion: https://github.com/jairocollante/viz 
 - Video explicativo 
 - Diapositivas 
+
+## Autores
+- Jairo Rafael Collante Rivero <jr.collante@uniandes.edu.co>
+- Mauricio Alejandro Rendón Moreno <ma.rendon@uniandes.edu.co>
+- Omar Rojas García <o.rojasg@uniandes.edu.co>
