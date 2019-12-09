@@ -62,6 +62,7 @@ pre {
 		</div>
 		
 		 <div class="row">
+		    <input id="limpia" type="button" value="Limpia contador" />
 	        <h4 id="consola" style="color: black">
 	            "Seleccione un area en el mapa."
 	        </h4>
@@ -72,13 +73,13 @@ pre {
 	<div class="container">
 	    <div class="row">   
 	    	<h4 class="heading mb-3">Vizualización</h4>
-	    		<p><strong>Parametros: </strong>Se deben seleccionar el año y opcionalmete el <strong>email</strong> de un participante. Luego presionar el botón "Vizualizar" </p>
-		        <p><strong>Descripción: </strong>Si se diligenció un <strong>email</strong> se muestran los datos de ese asistente. Si no se muestran los datos de asistencia en general.</br>
-			    Las área de cada circulo, son proporcionales por asistencias</br>
-	    	            Los diferentes colores, son los diferentes tipos de eventos.
+	    		<p><strong>Parametros: </strong>Se deben seleccionar el año y presionar el botón "Visualizar" </p>
+		        <p><strong>Descripción: </strong>Se visualiza un mapa de Colombia con sus departamentos delimitados y los eventos que se realizaron en el año seleccionado.</br>
+			    </br>Cada punto representa un evento, para solocionar la oclución de puntos se tiene un contador de eventos seleccionados. El contador se puede reinicar con el botón "Limpiar contador"
+	    	            
 	    		</p>
-			<p><strong>Interactividad:</strong> Al colocar el puntero del mouse, sobre un circulo se muestra un tooltip con el tipo del evento y la cantidad de asistencias. </p>
-			<p><strong>Nota: </strong>Los datos están anonimizados para proteger los datos de la empresa.</p>
+			    <p><strong>Interactividad:</strong>Se puede seleccionar un area en el mapa, y debajo del mapa se puestra la cantidad de eventos seleccionados</p>
+			    <p><strong>Nota:</strong>Mapa descargado de: https://victoriaericob.carto.com/tables/departamentos_colombia/public</p>
 		</div>
 	</div>
 	<div class="container">
@@ -220,13 +221,20 @@ function showMap(datasources0) {
         	});
         	
         	svgSolo.attr("class", "brush")
-            .call(brush).selectAll('rect')  ;              
+            .call(brush).selectAll('rect')  ; 
+                         
     		
  }
  
  var tabla = new Array();
   
+ d3.select("#limpia").on("click", function(e){limpiarTabla()});
  
+ function limpiarTabla(){
+ 	tabla = new Array();
+ 	d3.select("#consola").text("Total Eventos seleccionados = 0");
+ 	
+ }
  
  function mostrarTabla(d){
  
