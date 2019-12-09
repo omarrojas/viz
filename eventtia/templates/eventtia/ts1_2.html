@@ -21,14 +21,12 @@
     	<div class="row">    
     	  	<div class="media-body p-2 mt-2">
             	<h4 class="heading mb-3">Comparar cantidad de depósitos en $ entre dos o más eventos.</h4>
-       
           	</div>     
 		</div>
 		<!--<div id="chart">
 				<img src="{% static 'eventtia/images/ts_1_2.png' %}">
 		</div> -->
-
-		<table>
+			<table>
 				<tr><td>
 						<select id="seleccion"> 
 							<option value="18">Organizador 18
@@ -85,6 +83,7 @@
 							}
 						;
 							vegaEmbed('#chart', yourVlSpec);
+
 						})
 						.catch(function(error){
 							// handle error   
@@ -94,12 +93,6 @@
 	
 			<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
 			<script type="text/javascript" src="{% static 'eventtia/d3/ts1_1.js' %}" > </script>
-			
-		</div>
-
-		<script type="text/javascript" src="{% static 'eventtia/d3/d3.min.js' %}"> </script>
-		<script type="text/javascript" src="{% static 'eventtia/d3/ts1_2.js' %}" > </script>
-		
 	</div>
 </section>
 	    
